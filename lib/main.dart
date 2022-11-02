@@ -1,4 +1,6 @@
+import 'package:big_in_japan/screens/screens.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +14,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Big in Japan',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        //primarySwatch: Colors.blue,
       ),
-     routes: {
-     }, 
+    //initialRoute: HomeScreen.routeName,
+    // routes: {
+      //HomeScreen.routeName:(context) => HomeScreen(),
+      //DetailsScreen.routeName :(context) => DetailsScreen()   
+       //},
+       home: HomeScreen(), 
     );
   }
 }
