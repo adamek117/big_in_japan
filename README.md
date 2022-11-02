@@ -1,6 +1,6 @@
-# big_in_japan
+# Inzynieria oprogramowania
 
-A new Flutter project.
+Projekt BIG IN JAPAN
 
 ## Getting Started
 
