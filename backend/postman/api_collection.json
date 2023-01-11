@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "5c104416-fc1c-4755-ae56-b9ac7bc8226f",
+		"name": "big_in_japan_backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_boards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/boards",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_board",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_board 404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/boards/404",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"404"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
