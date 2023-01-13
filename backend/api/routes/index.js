@@ -30,8 +30,13 @@ const getBoardById = (req, res, roles, userId) => {
       return;
     }
 
-    const board = JSON.parse(data).filter(board => board.id === req.params.boardId)[0] ?? {};
+    const board = JSON.parse(data).filter(board => board.id === req.params.boardId)[0] ?? null;
 
+    if (!board) {
+      res.status(404).end();
+      return;
+    }
+    
     if (board.owner === userId || roles.includes('ROLE_ADMIN_READ')) {
       res.end(JSON.stringify(board));
     } else {
