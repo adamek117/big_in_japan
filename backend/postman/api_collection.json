@@ -73,6 +73,42 @@
 			"response": []
 		},
 		{
+			"name": "create new task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"97504315-0c29-4688-8825-64069f507d25\",\r\n    \"name\": \"new task name\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029/columns/4f729317-16ba-4d93-a242-18be982ed9f5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029",
+						"columns",
+						"4f729317-16ba-4d93-a242-18be982ed9f5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get_board 404",
 			"request": {
 				"method": "GET",
