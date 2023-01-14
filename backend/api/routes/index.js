@@ -22,6 +22,52 @@ router.get('/boards/:boardId', (req, res, next) => handleRequest(req, res, getBo
 
 router.post('/boards/:boardId/columns/:columnId', (req, res, next) => handleRequest(req, res, createTask))
 
+router.delete('/boards/:boardId/columns/:columnId/tasks/:taskId', (req, res, next) => handleRequest(req, res, deleteTask))
+
+
+const deleteTask = (req, res, roles, userId) => {
+  fs.readFile('data/boards.json', 'utf8', (err, data) => {
+    if(err) {
+      console.log(err);
+
+      return;
+    }
+
+    const boards = JSON.parse(data);
+    const board = boards.filter(board => board.id === req.params.boardId)[0] ?? null;
+
+    if(!board){
+      res.status(404).end();
+      return;
+    }
+
+    if (board.owner === userId || roles.includes('ROLE_ADMIN_WRITE')) {
+      const column = board.columns.filter(column => column.id === req.params.columnId)[0] ?? null;
+
+      if(!column){
+        res.status(404).end();
+        return;
+      }
+
+      if(!column.tasks.filter(task => task.id === req.params.taskId).length){
+        res.status(404).end();
+        return;
+      }
+      
+      column.tasks = column.tasks.filter(task => task.id !== req.params.taskId)
+      const content = JSON.stringify(boards);
+
+      fs.writeFile('data/boards.json', content, err => {
+        if (err) console.error(err);
+        
+        res.status(200).end();  
+      });
+    } else {
+      res.status(404).end();
+    }
+  })
+}
+
 const getBoardById = (req, res, roles, userId) => {
   fs.readFile('data/boards.json', 'utf8', (err, data) => {
     if(err) {
