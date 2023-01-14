@@ -24,6 +24,8 @@ router.post('/boards/:boardId/columns/:columnId', (req, res, next) => handleRequ
 
 router.delete('/boards/:boardId/columns/:columnId/tasks/:taskId', (req, res, next) => handleRequest(req, res, deleteTask))
 
+router.put('/boards/:boardId/columns/:columnId/tasks/:taskId', (req, res, next) => handleRequest(req, res, updateTask))
+
 
 const deleteTask = (req, res, roles, userId) => {
   fs.readFile('data/boards.json', 'utf8', (err, data) => {
@@ -55,6 +57,66 @@ const deleteTask = (req, res, roles, userId) => {
       }
       
       column.tasks = column.tasks.filter(task => task.id !== req.params.taskId)
+      const content = JSON.stringify(boards);
+
+      fs.writeFile('data/boards.json', content, err => {
+        if (err) console.error(err);
+        
+        res.status(200).end();  
+      });
+    } else {
+      res.status(404).end();
+    }
+  })
+}
+
+const updateTask = (req, res, roles, userId) => {
+  fs.readFile('data/boards.json', 'utf8', (err, data) => {
+    if(err) {
+      console.log(err);
+
+      return;
+    }
+
+    const boards = JSON.parse(data);
+    const board = boards.filter(board => board.id === req.params.boardId)[0] ?? null;
+
+    if(!board){
+      res.status(404).end();
+      return;
+    }
+
+    if (board.owner === userId || roles.includes('ROLE_ADMIN_WRITE')) {
+      const column = board.columns.filter(column => column.id === req.params.columnId)[0] ?? null;
+
+      if(!column){
+        res.status(404).end();
+        return;
+      }
+
+      const task = column.tasks.filter(task => task.id === req.params.taskId)[0] ?? null;
+
+      if(!task){
+        res.status(404).end();
+        return;
+      }
+
+      if(req.body?.name && typeof req.body.name === 'string' && req.body.name.length >= 1){
+        task.name = req.body.name;
+      }
+
+      if (req.body?.columnId) {
+        const newColumn = board.columns.filter(column => column.id === req.body.columnId)[0] ?? null;
+
+        if (!newColumn) {
+          res.status(422).end();
+          return;
+        }
+
+        column.tasks = column.tasks.filter(task => task.id !== req.params.taskId);
+        newColumn.tasks.push({id: task.id, name: task.name});
+      }
+
       const content = JSON.stringify(boards);
 
       fs.writeFile('data/boards.json', content, err => {
