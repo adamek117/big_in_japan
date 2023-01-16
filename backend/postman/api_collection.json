@@ -6,8 +6,11 @@
 	},
 	"item": [
 		{
-			"name": "get_users",
+			"name": "users",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -24,7 +27,7 @@
 			"response": []
 		},
 		{
-			"name": "get_boards",
+			"name": "boards",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -48,7 +51,7 @@
 			"response": []
 		},
 		{
-			"name": "get_board",
+			"name": "board",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -73,7 +76,7 @@
 			"response": []
 		},
 		{
-			"name": "create new task",
+			"name": "create task",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -109,10 +112,154 @@
 			"response": []
 		},
 		{
-			"name": "get_board 404",
+			"name": "create board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"praca\",\r\n    \"color\": \"#111111\",\r\n    \"columns\": [\r\n        {\r\n            \"name\": \"todo\",\r\n            \"color\": \"#000000\"\r\n        },\r\n        {\r\n            \"name\": \"done\",\r\n            \"color\": \"#123123\"\r\n        }\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/boards",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "task",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029/columns/4f729317-16ba-4d93-a242-18be982ed9f5/tasks/86c3cfd4-acf9-4064-96d0-b25fa54db579xx",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029",
+						"columns",
+						"4f729317-16ba-4d93-a242-18be982ed9f5",
+						"tasks",
+						"86c3cfd4-acf9-4064-96d0-b25fa54db579xx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "move task",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"columnId\": \"f16a815e-09cb-4584-a526-f9c489d41d2d\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029/columns/4f729317-16ba-4d93-a242-18be982ed9f5/tasks/86c3cfd4-acf9-4064-96d0-b25fa54db579",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029",
+						"columns",
+						"4f729317-16ba-4d93-a242-18be982ed9f5",
+						"tasks",
+						"86c3cfd4-acf9-4064-96d0-b25fa54db579"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rename task",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"renamed task\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029/columns/4f729317-16ba-4d93-a242-18be982ed9f5/tasks/86c3cfd4-acf9-4064-96d0-b25fa54db579",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029",
+						"columns",
+						"4f729317-16ba-4d93-a242-18be982ed9f5",
+						"tasks",
+						"86c3cfd4-acf9-4064-96d0-b25fa54db579"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "board 404",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "localhost:3000/boards/404",
 					"host": [

@@ -3,7 +3,8 @@
         "id": "f02f491b-4d93-472a-bc75-192577a9a897",
         "email": "admin@kanban.org",
         "roles": [
-            "ROLE_USER",
+            "ROLE_USER_READ",
+            "ROLE_USER_WRITE",
             "ROLE_ADMIN_READ",
             "ROLE_ADMIN_WRITE"
         ]
@@ -12,21 +13,23 @@
         "id": "ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7",
         "email": "user1@kanban.org",
         "roles": [
-            "ROLE_USER"
+            "ROLE_USER_READ",
+            "ROLE_USER_WRITE"
         ]
     },
     {
         "id": "a43b3af3-c099-43b8-80da-fbe4613db542",
         "email": "user2@kanban.org",
         "roles": [
-            "ROLE_USER"
+            "ROLE_USER_READ",
+            "ROLE_USER_WRITE"
         ]
     },
     {
         "id": "7bddc6c6-03df-46a9-8c66-834c9fae707e",
         "email": "readonly@kanban.org",
         "roles": [
-            "ROLE_USER",
+            "ROLE_USER_READ",
             "ROLE_ADMIN_READ"
         ]
     }
