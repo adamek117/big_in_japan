@@ -1,4 +1,4 @@
-import 'package:big_in_japan/screens/screens.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       //HomeScreen.routeName:(context) => HomeScreen(),
       //DetailsScreen.routeName :(context) => DetailsScreen()   
        //},
-       home: HomeScreen(), 
+       
     );
   }
 }
