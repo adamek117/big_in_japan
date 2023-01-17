@@ -5,7 +5,7 @@ import 'package:big_in_japan/loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'json_convert1.dart';
 import 'json_convert2.dart';
-import 'view1.dart';
+import 'viewToDo.dart';
 
 void main() {
   runApp(const MyApp());

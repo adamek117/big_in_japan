@@ -1,20 +1,52 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'loginscreen.dart';
+import 'viewToDo.dart';
+import 'viewNow.dart';
+import 'viewDone.dart';
 
-class AdminView extends StatelessWidget {
+
+class AdminViewToDo extends StatelessWidget {
   // up buttonSection
   @override
    Widget build(BuildContext context) {
 
 
-    Widget titleSection = Container(
-    padding: const EdgeInsets.all(32),
-    child: const Text(
-      'Zaloguj się na swoje konto, aby uzyskać dostęp do swojej TO-DO-LISTY',
-      softWrap: true,
-      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      ),
-    );
+    Widget titleSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [TextButton(
+        child: Text("To-Do", style: TextStyle(fontSize: 25)),
+        onPressed: (() {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminViewToDo()));}
+        ),
+        style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+                elevation: 2,
+                backgroundColor: Colors.white),
+                  ),
+
+        TextButton(
+        child: Text("Now", style: TextStyle(fontSize: 25)),
+        onPressed: (() {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminViewNow()));}
+        ),
+        style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+                elevation: 2,
+                backgroundColor: Colors.white),
+                  ),
+        TextButton(
+        child: Text("Done", style: TextStyle(fontSize: 25)),
+        onPressed: (() {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminViewDone()));}
+        ),
+        style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+                elevation: 2,
+                backgroundColor: Colors.white),
+                  ),
+
+        ],);
 
       Color color = Theme.of(context).primaryColor; 
       Widget buttonSection = Row(

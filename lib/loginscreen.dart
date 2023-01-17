@@ -1,8 +1,5 @@
-
-
-import 'package:big_in_japan/view1.dart';
+import 'package:big_in_japan/viewToDo.dart';
 import 'package:flutter/material.dart';
-
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -19,12 +16,13 @@ class LoginScreen extends StatelessWidget {
       String login = "";
       String password = "";
       var _controller = TextEditingController();
+      var _controller1 = TextEditingController();
       // middle section
       Widget middleSection=(  
            TextField( 
             controller: _controller,
-              onChanged: (text) {
-                login = text;
+              onChanged: (hintText) {
+                login = hintText;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -50,8 +48,8 @@ class LoginScreen extends StatelessWidget {
       children: [TextButton(
         child: Text("Login", style: TextStyle(fontSize: 25)),
         onPressed: (() {
-          if(login=="a"){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminView()));}
+          if(login =="a"){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminViewToDo()));}
         }),
         style: TextButton.styleFrom(
                 foregroundColor: Colors.black,
@@ -64,9 +62,9 @@ class LoginScreen extends StatelessWidget {
 
     
     Widget middleSection2=(TextField(
-      controller: _controller, 
-        onChanged: (text) {
-          password = text;
+      controller: _controller1, 
+        onChanged: (hintText) {
+          password = hintText;
           },
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -78,8 +76,9 @@ class LoginScreen extends StatelessWidget {
                           borderSide:
                             BorderSide(color: Colors.blue, width: 5.0)),
                               suffixIcon: IconButton(
-                                onPressed: _controller.clear,
-                                  icon: Icon(Icons.clear)),
+                                onPressed:_controller1.clear,
+                                  icon: Icon(Icons.clear)
+                                    ),
                                     hintText: 'Hasło',
                                       hintStyle: TextStyle(
                                         color: Colors.black,
