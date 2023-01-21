@@ -1,8 +1,8 @@
-import 'package:big_in_japan/admin/Done.dart';
-import 'package:big_in_japan/admin/ToDo.dart';
+import 'package:big_in_japan/views/Done.dart';
+import 'package:big_in_japan/views/ToDo.dart';
 import 'package:flutter/material.dart';
 
-import 'admin/Now.dart';
+import 'views/Now.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});

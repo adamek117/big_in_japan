@@ -1,103 +1,50 @@
+import 'package:big_in_japan/models/dialog_box.dart';
+import 'package:big_in_japan/models/now_tile.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'package:flutter/material.dart';
-import '../loginscreen.dart';
-import 'Done.dart';
-import 'ToDo.dart';
 
-class Now extends StatelessWidget {
-  // up buttonSection
+class Now extends StatefulWidget {
+  const Now({super.key});
+
+  @override
+  State<Now> createState() => _NowState();
+}
+
+class _NowState extends State<Now> {
+  final _controller = TextEditingController();
+  List nowList = [
+    ["Make", false],
+  ];
+
+  void checkBoxListChanged(bool? value, int index) {
+    setState(() {
+      nowList[index][1] = !nowList[index][1];
+    });
+  }
+
+  void deleteTask(int index) {
+    setState(() {
+      nowList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        TextButton(
-          child: Text("To-Do", style: TextStyle(fontSize: 25)),
-          onPressed: (() {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Now()));
-          }),
-          style: TextButton.styleFrom(
-              foregroundColor: Colors.black,
-              elevation: 2,
-              backgroundColor: Colors.white),
-        ),
-        TextButton(
-          child: Text("Now", style: TextStyle(fontSize: 25)),
-          onPressed: (() {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Now()));
-          }),
-          style: TextButton.styleFrom(
-              foregroundColor: Colors.black,
-              elevation: 2,
-              backgroundColor: Colors.white),
-        ),
-        TextButton(
-          child: Text("Done", style: TextStyle(fontSize: 25)),
-          onPressed: (() {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Done()));
-          }),
-          style: TextButton.styleFrom(
-              foregroundColor: Colors.black,
-              elevation: 2,
-              backgroundColor: Colors.white),
-        ),
-      ],
-    );
-
-    Color color = Theme.of(context).primaryColor;
-    Widget buttonSection = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
-          },
-          child: const Text('Wyloguj się'),
-        ),
-        ElevatedButton.icon(
-            icon: Icon(Icons.picture_as_pdf),
-            label: Text('Wyeksportuj do PDF-a'),
-            onPressed: () {
-              print("Wyeksportowałeś do PDF-a");
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white)),
-        ElevatedButton.icon(
-            icon: Icon(Icons.format_color_fill),
-            label: Text('Zmień kolor'),
-            onPressed: () {
-              print("Funkcja odpowiedzialna za zmiane koloru");
-            }),
-        ElevatedButton.icon(
-            icon: Icon(Icons.add),
-            label: Text('Dodaj Taska'),
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black45,
-                foregroundColor: Colors.white)),
-      ],
-    );
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Admin'),
-          titleTextStyle: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          backgroundColor: Colors.grey,
-        ),
-        body: Column(
-          children: [
-            titleSection,
-            SizedBox(height: 10),
-            buttonSection,
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.yellow[200],
+      appBar: AppBar(
+        title: const Text("To Do"),
+        elevation: 0,
+      ),
+      body: ListView.builder(
+        itemCount: nowList.length,
+        itemBuilder: (context, index) {
+          return NowTile(
+            TaskName: nowList[index][0],
+            TaskDone: nowList[index][1],
+            onChanged: (value) => checkBoxListChanged(value, index),
+            deleteFunction: (context) => deleteTask,
+          );
+        },
       ),
     );
   }

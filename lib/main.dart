@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:big_in_japan/loginscreen.dart';
+import 'package:big_in_japan/views/loginscreen.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -61,15 +61,16 @@ class _ToDoState extends State<ToDo> {
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
-          itemCount: toDoList.length,
-          itemBuilder: (context, index) {
-            return ToDoTile(
-              TaskName: toDoList[index][0],
-              TaskInProgress: toDoList[index][1],
-              onChanged: (value) => checkBoxListChanged(value, index),
-              deleteFunction: (context) => deleteTask,
-            );
-          }),
+        itemCount: toDoList.length,
+        itemBuilder: (context, index) {
+          return ToDoTile(
+            TaskName: toDoList[index][0],
+            TaskInProgress: toDoList[index][1],
+            onChanged: (value) => checkBoxListChanged(value, index),
+            deleteFunction: (context) => deleteTask,
+          );
+        },
+      ),
     );
   }
 }
