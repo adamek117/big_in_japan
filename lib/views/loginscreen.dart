@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:big_in_japan/InitialPage.dart';
+import 'package:big_in_japan/views/InitialPage.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 /*Future<List<User>> fetchUser(http.Client client) async {
@@ -47,33 +48,35 @@ class _LoginPageState extends State<LoginScreen> {
 
   @override
   void initState() {
-    getRequest();
+    super.initState();
+    //getRequest();
     //futureUser = fetchUser();
-    //getJsonData();
+    getJsonData();
   }
 
-  Future<List<User>> getRequest() async {
+  /* Future<void> getRequest() async {
     String url = "http://localhost:3000/users";
     final response = await http.get(Uri.parse(url));
     var responseData = json.decode(response.body);
-    for (var singleUser in responseData) {
-      User user = User(
-        id: singleUser["id"],
-        email: singleUser["email"],
-        roles: singleUser["title"].castString(),
-      );
-      users.add(user);
-    }
-    return users;
-  }
+    setState(() {
+      for (var singleUser in responseData) {
+        User user = User(
+          id: singleUser["id"],
+          email: singleUser["email"],
+          roles: singleUser["title"].castString(),
+        );
+        users.add(user);
+      }
+    });
+  }*/
 
-  /*Future<void> getJsonData() async {
+  Future<void> getJsonData() async {
     //final response = await http.get(Uri.parse('https://localhost:3000/users'));
     //final a = await rootBundle.loadString(response.body);
     //final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
     //final data = parsed.map<User>((json) => User.fromJson(json)).toList();
-    //final String response = await rootBundle.loadString('assets/users.json');
-    //final data = await jsonDecode(a);
+    final String response = await rootBundle.loadString('assets/users.json');
+    final data = await jsonDecode(response);
     setState(() {
       _data = data['users'];
       for (var user in _data) {
@@ -86,7 +89,8 @@ class _LoginPageState extends State<LoginScreen> {
         );
       }
     });
-  }*/
+  }
+
   bool isCorrectUser(email) {
     return users.any((user) => user.email == email);
   }
@@ -95,7 +99,7 @@ class _LoginPageState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Widget titleSection = Container(
         padding: const EdgeInsets.only(top: 32),
-        height: 300.0,
+        height: 200.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(200),
         ),
@@ -116,14 +120,15 @@ class _LoginPageState extends State<LoginScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blueGrey, width: 2.0)),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blue, width: 5.0)),
           suffixIcon: IconButton(
-              onPressed: () => _controller.clear(), icon: Icon(Icons.clear)),
+              onPressed: () => _controller.clear(),
+              icon: const Icon(Icons.clear)),
           hintText: 'Login',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.black,
             fontStyle: FontStyle.italic,
             fontSize: 20,
@@ -135,10 +140,6 @@ class _LoginPageState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextButton(
-          child: Text(
-            "Log  In",
-            style: TextStyle(fontSize: 25),
-          ),
           onPressed: (() {
             if (isCorrectUser(login)) {
               Navigator.push(context,
@@ -149,6 +150,10 @@ class _LoginPageState extends State<LoginScreen> {
               foregroundColor: Colors.black,
               elevation: 2,
               backgroundColor: Colors.yellowAccent),
+          child: const Text(
+            "Log  In",
+            style: TextStyle(fontSize: 25),
+          ),
         ),
       ],
     );
@@ -162,14 +167,14 @@ class _LoginPageState extends State<LoginScreen> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blueGrey, width: 2.0)),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 5.0)),
-        suffixIcon:
-            IconButton(onPressed: _controller1.clear, icon: Icon(Icons.clear)),
+        suffixIcon: IconButton(
+            onPressed: _controller1.clear, icon: const Icon(Icons.clear)),
         hintText: 'Password',
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Colors.black,
           fontStyle: FontStyle.italic,
           fontSize: 20,
@@ -180,18 +185,19 @@ class _LoginPageState extends State<LoginScreen> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Big in Japan'),
-          titleTextStyle: TextStyle(
+          title: const Text('Big in Japan'),
+          titleTextStyle: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           elevation: 0,
         ),
-        body: Column(
+        body: ListView(
+          shrinkWrap: false,
           children: [
             titleSection,
             middleSection,
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             middleSection2,
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             buttonSection
           ],
         ));

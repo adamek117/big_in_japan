@@ -27,13 +27,36 @@ class _DoneState extends State<Done> {
     });
   }
 
+  void printToPDF() {}
+  void changeColor() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("To Do"),
+        title: const Text("Now"),
         elevation: 0,
+        backgroundColor: Colors.blueGrey,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: printToPDF,
+              child: const Icon(Icons.picture_as_pdf),
+              backgroundColor: Colors.red,
+            ),
+            FloatingActionButton(
+              onPressed: changeColor,
+              child: const Icon(Icons.change_circle),
+              backgroundColor: Colors.lime,
+            ),
+          ],
+        ),
       ),
       body: ListView.builder(
         itemCount: nowList.length,
