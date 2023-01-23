@@ -1,7 +1,7 @@
 class User {
   final String id;
   final String email;
-  final List<String> roles;
+  final List<String>? roles;
 
   User({
     required this.id,

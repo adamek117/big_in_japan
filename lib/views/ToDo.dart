@@ -68,16 +68,19 @@ class _ToDoState extends State<ToDo> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             FloatingActionButton(
+              heroTag: "btn1",
               onPressed: printToPDF,
               child: const Icon(Icons.picture_as_pdf),
               backgroundColor: Colors.red,
             ),
             FloatingActionButton(
+              heroTag: "btn2",
               onPressed: changeColor,
               child: const Icon(Icons.change_circle),
               backgroundColor: Colors.lime,
             ),
             FloatingActionButton(
+              heroTag: "btn3",
               onPressed: createNewTask,
               child: const Icon(Icons.add),
             ),

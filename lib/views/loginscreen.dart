@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:big_in_japan/views/InitialPage.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:http/http.dart' as http;
 
 /*Future<List<User>> fetchUser(http.Client client) async {
@@ -49,36 +49,38 @@ class _LoginPageState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    //getRequest();
+    getRequest();
     //futureUser = fetchUser();
-    getJsonData();
+    //getJsonData();
   }
 
-  /* Future<void> getRequest() async {
+  Future<void> getRequest() async {
     String url = "http://localhost:3000/users";
     final response = await http.get(Uri.parse(url));
     var responseData = json.decode(response.body);
+    final b = responseData.cast<Map<String, dynamic>>();
     setState(() {
-      for (var singleUser in responseData) {
+      for (var singleUser in b) {
+        print(singleUser);
         User user = User(
           id: singleUser["id"],
           email: singleUser["email"],
-          roles: singleUser["title"].castString(),
+          roles: singleUser["title"],
         );
         users.add(user);
       }
     });
-  }*/
+  }
 
-  Future<void> getJsonData() async {
-    //final response = await http.get(Uri.parse('https://localhost:3000/users'));
+  /*Future<void> getJsonData() async {
+    //final response = await http.get(Uri.parse('http://localhost:3000/users'));
     //final a = await rootBundle.loadString(response.body);
     //final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
     //final data = parsed.map<User>((json) => User.fromJson(json)).toList();
-    final String response = await rootBundle.loadString('assets/users.json');
-    final data = await jsonDecode(response);
+    //final String response = await rootBundle.loadString('assets/users.json');
+    //final data = await jsonDecode(response);
     setState(() {
-      _data = data['users'];
+      //_data = data['users'];
       for (var user in _data) {
         List<User> items = [];
         users.add(
@@ -89,7 +91,7 @@ class _LoginPageState extends State<LoginScreen> {
         );
       }
     });
-  }
+  }*/
 
   bool isCorrectUser(email) {
     return users.any((user) => user.email == email);
