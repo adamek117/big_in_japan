@@ -2,9 +2,15 @@ var express = require("express");
 var fs = require("fs");
 var router = express.Router();
 const { v4: uuidv4 } = require("uuid");
+const unprocessableEntityResponse = { message: 'Not Found' };
+const notFoundResponse = { message: 'Not Found' };
+const unauthorizedResponse = { message: 'Unauthorized' };
+const badRequestResponse = { message: 'Bad Request' };
+const createdResponse = { message: 'Created' };
+const okResponse=  { message: 'Ok'};
 
 router.get("/users", (req, res, next) => {
-  fs.readFile("data/users.json", "utf8", (err, data) => {
+  fs.readFile("../data/users.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
       return;
@@ -43,7 +49,7 @@ const createBoard = (req, res, roles, userId) => {
     !roles.includes("ROLE_USER_WRITE") &&
     !roles.includes("ROLE_ADMIN_WRITE")
   ) {
-    res.status(401).end();
+    res.status(401).end(JSON.stringify(unauthorizedResponse));
     return;
   }
 
@@ -51,7 +57,7 @@ const createBoard = (req, res, roles, userId) => {
   const colorRegex = /^#([0-9a-f]{3}){1,2}$/i;
 
   if (!board?.name || typeof board.name !== "string" || board.name.length < 1) {
-    res.status(400).end();
+    res.status(400).end(JSON.stringify(badRequestResponse));
     return;
   }
 
@@ -60,7 +66,7 @@ const createBoard = (req, res, roles, userId) => {
     typeof board.color !== "string" ||
     !colorRegex.test(board.color)
   ) {
-    res.status(400).end();
+    res.status(400).end(JSON.stringify(badRequestResponse));
     return;
   }
 
@@ -73,7 +79,7 @@ const createBoard = (req, res, roles, userId) => {
       typeof column.name !== "string" ||
       column.name.length < 1
     ) {
-      res.status(400).end();
+      res.status(400).end(JSON.stringify(badRequestResponse));
       return;
     }
 
@@ -82,14 +88,14 @@ const createBoard = (req, res, roles, userId) => {
       typeof column.color !== "string" ||
       !colorRegex.test(column.color)
     ) {
-      res.status(400).end();
+      res.status(400).end(JSON.stringify(badRequestResponse));
       return;
     }
 
     column.id = uuidv4();
   }
 
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -100,16 +106,16 @@ const createBoard = (req, res, roles, userId) => {
     boards.push(board);
     const content = JSON.stringify(boards);
 
-    fs.writeFile("data/boards.json", content, (err) => {
+    fs.writeFile("../data/boards.json", content, (err) => {
       if (err) console.error(err);
 
-      res.status(201).end();
+      res.status(201).end(JSON.stringify(createdResponse));
     });
   });
 };
 
 const deleteTask = (req, res, roles, userId) => {
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -121,7 +127,7 @@ const deleteTask = (req, res, roles, userId) => {
       boards.filter((board) => board.id === req.params.boardId)[0] ?? null;
 
     if (!board) {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
       return;
     }
 
@@ -132,14 +138,14 @@ const deleteTask = (req, res, roles, userId) => {
         )[0] ?? null;
 
       if (!column) {
-        res.status(404).end();
+        res.status(404).end(JSON.stringify(notFoundResponse));
         return;
       }
 
       if (
         !column.tasks.filter((task) => task.id === req.params.taskId).length
       ) {
-        res.status(404).end();
+        res.status(404).end(JSON.stringify(notFoundResponse));
         return;
       }
 
@@ -148,19 +154,19 @@ const deleteTask = (req, res, roles, userId) => {
       );
       const content = JSON.stringify(boards);
 
-      fs.writeFile("data/boards.json", content, (err) => {
+      fs.writeFile("../data/boards.json", content, (err) => {
         if (err) console.error(err);
 
-        res.status(200).end();
+        res.status(200).end(JSON.stringify(okResponse));
       });
     } else {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
     }
   });
 };
 
 const updateTask = (req, res, roles, userId) => {
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -172,7 +178,7 @@ const updateTask = (req, res, roles, userId) => {
       boards.filter((board) => board.id === req.params.boardId)[0] ?? null;
 
     if (!board) {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
       return;
     }
 
@@ -183,7 +189,7 @@ const updateTask = (req, res, roles, userId) => {
         )[0] ?? null;
 
       if (!column) {
-        res.status(404).end();
+        res.status(404).end(JSON.stringify(notFoundResponse));
         return;
       }
 
@@ -191,7 +197,7 @@ const updateTask = (req, res, roles, userId) => {
         column.tasks.filter((task) => task.id === req.params.taskId)[0] ?? null;
 
       if (!task) {
-        res.status(404).end();
+        res.status(404).end(JSON.stringify(notFoundResponse));
         return;
       }
 
@@ -210,7 +216,7 @@ const updateTask = (req, res, roles, userId) => {
           )[0] ?? null;
 
         if (!newColumn) {
-          res.status(422).end();
+          res.status().end(JSON.stringify(unprocessableEntityResponse));
           return;
         }
 
@@ -222,19 +228,19 @@ const updateTask = (req, res, roles, userId) => {
 
       const content = JSON.stringify(boards);
 
-      fs.writeFile("data/boards.json", content, (err) => {
+      fs.writeFile("../data/boards.json", content, (err) => {
         if (err) console.error(err);
 
-        res.status(200).end();
+        res.status(200).end(JSON.stringify(okResponse));
       });
     } else {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
     }
   });
 };
 
 const getBoardById = (req, res, roles, userId) => {
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -246,14 +252,14 @@ const getBoardById = (req, res, roles, userId) => {
       null;
 
     if (!board) {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
       return;
     }
 
     if (board.owner === userId || roles.includes("ROLE_ADMIN_READ")) {
       res.end(JSON.stringify(board));
     } else {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
     }
   });
 };
@@ -264,11 +270,11 @@ const handleRequest = (req, res, fulfillRequest) => {
   res.setHeader("Content-Type", "application/json");
 
   if (!userId) {
-    res.status(401).end();
+    res.status(401).end(JSON.stringify(unauthorizedResponse));
     return;
   }
 
-  fs.readFile("data/users.json", "utf-8", (err, data) => {
+  fs.readFile("../data/users.json", "utf-8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -282,13 +288,13 @@ const handleRequest = (req, res, fulfillRequest) => {
 
       fulfillRequest(req, res, roles, userId);
     } else {
-      res.status(401).end();
+      res.status(401).end(JSON.stringify(unauthorizedResponse));
     }
   });
 };
 
 const getBoards = (req, res, roles, userId) => {
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -305,7 +311,7 @@ const getBoards = (req, res, roles, userId) => {
 
 const createTask = (req, res, roles, userId) => {
   if (!req.body?.id || req.body.id.length !== 36) {
-    res.status(400).end();
+    res.status(400).end(JSON.stringify(badRequestResponse));
     return;
   }
 
@@ -314,11 +320,11 @@ const createTask = (req, res, roles, userId) => {
     typeof req.body.name !== "string" ||
     req.body.name.length < 1
   ) {
-    res.status(400).end();
+    res.status(400).end(JSON.stringify(badRequestResponse));
     return;
   }
 
-  fs.readFile("data/boards.json", "utf8", (err, data) => {
+  fs.readFile("../data/boards.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
 
@@ -330,7 +336,7 @@ const createTask = (req, res, roles, userId) => {
       boards.filter((board) => board.id === req.params.boardId)[0] ?? null;
 
     if (!board) {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
       return;
     }
 
@@ -341,12 +347,12 @@ const createTask = (req, res, roles, userId) => {
         )[0] ?? null;
 
       if (!column) {
-        res.status(404).end();
+        res.status(404).end(JSON.stringify(notFoundResponse));
         return;
       }
 
       if (column.tasks.filter((task) => task.id === req.body.id).length) {
-        res.status(422).end();
+        res.status(422).end(JSON.stringify(unprocessableEntityResponse));
         return;
       }
 
@@ -357,15 +363,15 @@ const createTask = (req, res, roles, userId) => {
 
       const content = JSON.stringify(boards);
 
-      fs.writeFile("data/boards.json", content, (err) => {
+      fs.writeFile("../data/boards.json", content, (err) => {
         if (err) {
           console.error(err);
         }
 
-        res.status(201).end();
+        res.status(201).end(JSON.stringify(createdResponse));
       });
     } else {
-      res.status(404).end();
+      res.status(404).end(JSON.stringify(notFoundResponse));
     }
   });
 };
