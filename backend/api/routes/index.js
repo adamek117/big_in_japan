@@ -216,7 +216,7 @@ const updateTask = (req, res, roles, userId) => {
           )[0] ?? null;
 
         if (!newColumn) {
-          res.status().end(JSON.stringify(unprocessableEntityResponse));
+          res.status(422).end(JSON.stringify(unprocessableEntityResponse));
           return;
         }
 
