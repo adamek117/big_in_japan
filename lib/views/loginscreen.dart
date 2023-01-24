@@ -6,34 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-/*Future<List<User>> fetchUser(http.Client client) async {
-  final response = await client.get(Uri.parse('https://localhost:3000/users'));
-
-  // Use the compute function to run parsePhotos in a separate isolate.
-  return compute(parseUser, response.body);
-}
-
-// A function that converts a response body into a List<Photo>.
-List<User> parseUser(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<User>((json) => User.fromJson(json)).toList();
-}*/
-
-/*Future<User> fetchUser() async {
-  final response = await http.get(Uri.parse('http://localhost:3000/users'));
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return User.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
-*/
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -43,9 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginPageState extends State<LoginScreen> {
   late Future<User> futureUser;
-  List _data = [];
   List<User> users = [];
-
   @override
   void initState() {
     super.initState();
@@ -61,7 +31,6 @@ class _LoginPageState extends State<LoginScreen> {
     final b = responseData.cast<Map<String, dynamic>>();
     setState(() {
       for (var singleUser in b) {
-        print(singleUser);
         User user = User(
           id: singleUser["id"],
           email: singleUser["email"],
@@ -71,27 +40,6 @@ class _LoginPageState extends State<LoginScreen> {
       }
     });
   }
-
-  /*Future<void> getJsonData() async {
-    //final response = await http.get(Uri.parse('http://localhost:3000/users'));
-    //final a = await rootBundle.loadString(response.body);
-    //final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
-    //final data = parsed.map<User>((json) => User.fromJson(json)).toList();
-    //final String response = await rootBundle.loadString('assets/users.json');
-    //final data = await jsonDecode(response);
-    setState(() {
-      //_data = data['users'];
-      for (var user in _data) {
-        List<User> items = [];
-        users.add(
-          User(
-              id: user["id"],
-              email: user['email'],
-              roles: user['roles'].cast<String>()),
-        );
-      }
-    });
-  }*/
 
   bool isCorrectUser(email) {
     return users.any((user) => user.email == email);

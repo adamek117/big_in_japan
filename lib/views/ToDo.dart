@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:big_in_japan/models/dialog_box.dart';
 import 'package:big_in_japan/models/todo_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:big_in_japan/models/function.dart';
+import '../models/boards.dart';
+import 'loginscreen.dart';
+import 'package:big_in_japan/models/users.dart';
+import "InitialPage.dart";
 
 class ToDo extends StatefulWidget {
   const ToDo({super.key});
@@ -11,6 +18,32 @@ class ToDo extends StatefulWidget {
 }
 
 class _ToDoState extends State<ToDo> {
+  List<Boards> boards = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //getRequest();
+    //futureUser = fetchUser();
+    //getJsonData();
+  }
+
+  /* Future<void> getRequest() async {
+    String url = "http://localhost:3000/boards";
+    final response = await http.get(Uri.parse(url), headers: {
+      HttpHeaders.authorizationHeader: 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
+    });
+    String url1 = "http://localhost:3000/boards";
+    final response1 = await http.get(Uri.parse(url), headers: {
+      HttpHeaders.authorizationHeader: 'a43b3af3-c099-43b8-80da-fbe4613db542',
+    });
+    var responseData = json.decode(response.body);
+    final data = responseData.cast<Map<String, dynamic>>();
+    var responseData1 = json.decode(response.body);
+    final data1 = responseData.cast<Map<String, dynamic>>();
+    setState(() {});
+  }**/
+
   final _controller = TextEditingController();
   List toDoList = [
     ["Make", false],

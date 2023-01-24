@@ -1,7 +1,6 @@
 import 'package:big_in_japan/models/dialog_box.dart';
 import 'package:big_in_japan/models/now_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:big_in_japan/models/function.dart';
 
 class Now extends StatefulWidget {
   const Now({super.key});

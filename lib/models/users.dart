@@ -16,12 +16,4 @@ class User {
       roles: json['roles'].cast<String>(),
     );
   }
-
-  /*factory Use8r.fromJson(Map<String, dynamic>json) {
-    return User(
-  id: json['id'],
-  email: json['email'],
-  roles: json['roles'],
-    );
-  }*/
 }

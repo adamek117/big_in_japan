@@ -1,13 +1,13 @@
-class Board {
+class Boards {
   String? id;
   String? name;
   String? color;
   String? owner;
   List<Columns>? columns;
 
-  Board({this.id, this.name, this.color, this.owner, this.columns});
+  Boards({this.id, this.name, this.color, this.owner, this.columns});
 
-  Board.fromJson(Map<String, dynamic> json) {
+  Boards.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     color = json['color'];
