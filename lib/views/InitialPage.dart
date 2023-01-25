@@ -58,11 +58,27 @@ class _InitialPageState extends State<InitialPage> {
     final data = responseData.cast<Map<String, dynamic>>();
     List<Boards> boards = [];
     for (var list in data) {
+      List<Columns> columns = [];
+
+      for (var column in list["columns"]) {
+        List<Tasks> tasks = [];
+
+        for (var task in column["tasks"]) {
+          tasks.add(Tasks(id: task["id"], name: task["name"]));
+        }
+        columns.add(Columns(
+            id: column["id"],
+            name: column["name"],
+            color: column["color"],
+            tasks: List.from(tasks)));
+      }
+
       boards.add(Boards(
         id: list["id"],
         name: list["name"],
         color: list["color"],
         owner: list['owner'],
+        columns: List.from(columns),
       ));
     }
 
