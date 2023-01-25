@@ -94,45 +94,94 @@ class _ToDoState extends State<ToDo> {
     });
   }
 
+  bool isChecked = false;
   void printToPDF() {}
   void changeColor() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text("To Do"),
-        elevation: 0,
-        backgroundColor: Colors.blueGrey,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            FloatingActionButton(
-              heroTag: "btn1",
-              onPressed: printToPDF,
-              child: const Icon(Icons.picture_as_pdf),
-              backgroundColor: Colors.red,
-            ),
-            FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: changeColor,
-              child: const Icon(Icons.change_circle),
-              backgroundColor: Colors.lime,
-            ),
-            FloatingActionButton(
-              heroTag: "btn3",
-              onPressed: createNewTask,
-              child: const Icon(Icons.add),
-            ),
-          ],
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text("To Do"),
+          elevation: 0,
+          backgroundColor: Colors.blueGrey,
         ),
-      ),
-      body: ListView.builder(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: "btn1",
+                onPressed: printToPDF,
+                child: const Icon(Icons.picture_as_pdf),
+                backgroundColor: Colors.red,
+              ),
+              FloatingActionButton(
+                heroTag: "btn2",
+                onPressed: changeColor,
+                child: const Icon(Icons.change_circle),
+                backgroundColor: Colors.lime,
+              ),
+              FloatingActionButton(
+                heroTag: "btn3",
+                onPressed: createNewTask,
+                child: const Icon(Icons.add),
+              ),
+            ],
+          ),
+        ),
+        body: ReorderableListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                key: Key('${index}'),
+                child: ListTile(
+                  leading: Checkbox(
+                      value: isChecked,
+                      onChanged: (value) {
+                        checkBoxListChanged(value, index);
+                        isChecked = !value!;
+                      }),
+                  title: Text(toDoList[index].name),
+                ),
+              );
+            },
+            itemCount: toDoList == null ? 0 : toDoList.length,
+            onReorder: (int oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) {
+                  newIndex -= 1;
+                }
+                final tmp = toDoList.removeAt(oldIndex);
+
+                toDoList.insert(newIndex, tmp);
+              });
+            }));
+  }
+}
+       
+          
+
+       
+       
+      
+            
+            
+            /*Card(
+              color: Colors.blueGrey,
+              key: ValueKey(items),
+              elevation: 2,
+              child: ListTile(
+                title: Text(items),
+                leading: Icon(Icons.work,color: Colors.black,),
+              ),
+            ),*/
+        
+      
+      
+      /*ListView.builder(
         itemCount: toDoList.length,
         itemBuilder: (context, index) {
           return ToDoTile(
@@ -142,7 +191,5 @@ class _ToDoState extends State<ToDo> {
             deleteFunction: (context) => deleteTask,
           );
         },
-      ),
-    );
-  }
-}
+      ),*/
+
