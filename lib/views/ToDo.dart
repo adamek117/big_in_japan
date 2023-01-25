@@ -23,22 +23,38 @@ class _ToDoState extends State<ToDo> {
   @override
   void initState() {
     super.initState();
-    //getRequest();
+    getRequest();
     //futureUser = fetchUser();
     //getJsonData();
   }
 
-  /* Future<void> getRequest() async {
-    String url = "http://localhost:3000/boards";
-    final response = await http.get(Uri.parse(url), headers: {
-      HttpHeaders.authorizationHeader: 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
+  Future<void> getRequest() async {
+    final response = await http.get(
+      Uri.parse("http://localhost:3000/boards"),
+      headers: {
+        'x-user-id': 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
+      },
+    );
+    final responseData = json.decode(response.body);
+    final data = responseData.cast<Map<String, dynamic>>();
+    setState(() {
+      for (var list in data) {
+        Boards user1 = Boards(
+          id: list["id"],
+          name: list["name"],
+          color: list["color"],
+          owner: list['owner'],
+        );
+        boards.add(user1);
+      }
     });
+  }
+  /*
     String url1 = "http://localhost:3000/boards";
     final response1 = await http.get(Uri.parse(url), headers: {
       HttpHeaders.authorizationHeader: 'a43b3af3-c099-43b8-80da-fbe4613db542',
     });
-    var responseData = json.decode(response.body);
-    final data = responseData.cast<Map<String, dynamic>>();
+    
     var responseData1 = json.decode(response.body);
     final data1 = responseData.cast<Map<String, dynamic>>();
     setState(() {});
