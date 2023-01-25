@@ -14,9 +14,25 @@ class Done extends StatefulWidget {
 
 class _DoneState extends State<Done> {
   final _controller = TextEditingController();
-  List doneList = [
-    ["Make", false],
-  ];
+  List doneList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      if (widget.doneList.isNotEmpty) {
+        Boards board = widget.doneList[0];
+        List? columns = board.columns
+            ?.where((column) => column.name == 'done')
+            .toList()
+            .cast<dynamic>();
+
+        if (columns is List && columns.isNotEmpty) {
+          doneList = List.from(columns[0].tasks);
+        }
+      }
+    });
+  }
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
@@ -67,8 +83,8 @@ class _DoneState extends State<Done> {
         itemCount: doneList.length,
         itemBuilder: (context, index) {
           return DoneTile(
-            TaskName: doneList[index][0],
-            TaskEnd: doneList[index][1],
+            TaskName: doneList[index].name,
+            TaskEnd: false,
             onChanged: (value) => checkBoxListChanged(value, index),
             deleteFunction: (context) => deleteTask,
           );

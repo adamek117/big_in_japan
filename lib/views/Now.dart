@@ -14,9 +14,25 @@ class Now extends StatefulWidget {
 
 class _NowState extends State<Now> {
   final _controller = TextEditingController();
-  List nowList = [
-    ["Make", false],
-  ];
+  List nowList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      if (widget.nowList.isNotEmpty) {
+        Boards board = widget.nowList[0];
+        List? columns = board.columns
+            ?.where((column) => column.name == 'in progress')
+            .toList()
+            .cast<dynamic>();
+
+        if (columns is List && columns.isNotEmpty) {
+          nowList = List.from(columns[0].tasks);
+        }
+      }
+    });
+  }
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
@@ -67,8 +83,8 @@ class _NowState extends State<Now> {
         itemCount: nowList.length,
         itemBuilder: (context, index) {
           return NowTile(
-            TaskName: nowList[index][0],
-            TaskDone: nowList[index][1],
+            TaskName: nowList[index].name,
+            TaskDone: false,
             onChanged: (value) => checkBoxListChanged(value, index),
             deleteFunction: (context) => deleteTask,
           );

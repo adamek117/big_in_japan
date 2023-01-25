@@ -20,52 +20,27 @@ class ToDo extends StatefulWidget {
 }
 
 class _ToDoState extends State<ToDo> {
-  // List<Boards> boards = [];
+  List toDoList = [];
 
   @override
   void initState() {
     super.initState();
-    //getRequest();
-    //futureUser = fetchUser();
-    //getJsonData();
+    setState(() {
+      if (widget.toDoList.length > 0) {
+        Boards board = widget.toDoList[0];
+        List? columns = board.columns
+            ?.where((column) => column.name == 'todo')
+            .toList()
+            .cast<dynamic>();
+
+        if (columns is List && columns.isNotEmpty) {
+          toDoList = List.from(columns[0].tasks);
+        }
+      }
+    });
   }
 
-  // Future<void> getRequest() async {
-  //   final response = await http.get(
-  //     Uri.parse("http://localhost:3000/boards"),
-  //     headers: {
-  //       'x-user-id': 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
-  //     },
-  //   );
-  //   final responseData = json.decode(response.body);
-  //   final data = responseData.cast<Map<String, dynamic>>();
-  //   setState(() {
-  //     for (var list in data) {
-  //       Boards user1 = Boards(
-  //         id: list["id"],
-  //         name: list["name"],
-  //         color: list["color"],
-  //         owner: list['owner'],
-  //       );
-  //       boards.add(user1);
-  //     }
-  //   });
-  // }
-  /*
-    String url1 = "http://localhost:3000/boards";
-    final response1 = await http.get(Uri.parse(url), headers: {
-      HttpHeaders.authorizationHeader: 'a43b3af3-c099-43b8-80da-fbe4613db542',
-    });
-    
-    var responseData1 = json.decode(response.body);
-    final data1 = responseData.cast<Map<String, dynamic>>();
-    setState(() {});
-  }**/
-
   final _controller = TextEditingController();
-  List toDoList = [
-    ["Make", false],
-  ];
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
@@ -142,8 +117,8 @@ class _ToDoState extends State<ToDo> {
         itemCount: toDoList.length,
         itemBuilder: (context, index) {
           return ToDoTile(
-            TaskName: toDoList[index][0],
-            TaskInProgress: toDoList[index][1],
+            TaskName: toDoList[index].name,
+            TaskInProgress: false,
             onChanged: (value) => checkBoxListChanged(value, index),
             deleteFunction: (context) => deleteTask,
           );
