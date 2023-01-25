@@ -45,6 +45,10 @@ class _LoginPageState extends State<LoginScreen> {
     return users.any((user) => user.email == email);
   }
 
+  User getUserByEmail(email) {
+    return users.where((user) => user.email == email).first;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget titleSection = Container(
@@ -92,8 +96,11 @@ class _LoginPageState extends State<LoginScreen> {
         TextButton(
           onPressed: (() {
             if (isCorrectUser(login)) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InitialPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          InitialPage(user: getUserByEmail(login))));
             }
           }),
           style: TextButton.styleFrom(

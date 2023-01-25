@@ -1,9 +1,12 @@
-import 'package:big_in_japan/models/dialog_box.dart';
 import 'package:big_in_japan/models/done_tile.dart';
 import 'package:flutter/material.dart';
+import '../models/boards.dart';
+import 'package:big_in_japan/models/users.dart';
 
 class Done extends StatefulWidget {
-  const Done({super.key});
+  final User? user;
+  final List<Boards> boards;
+  const Done({Key? key, this.user, required this.boards}) : super(key: key);
 
   @override
   State<Done> createState() => _DoneState();

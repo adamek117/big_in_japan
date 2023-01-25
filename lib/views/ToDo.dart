@@ -11,44 +11,46 @@ import 'package:big_in_japan/models/users.dart';
 import "InitialPage.dart";
 
 class ToDo extends StatefulWidget {
-  const ToDo({super.key});
+  final User? user;
+  final List<Boards> boards;
+  const ToDo({Key? key, this.user, required this.boards}) : super(key: key);
 
   @override
   State<ToDo> createState() => _ToDoState();
 }
 
 class _ToDoState extends State<ToDo> {
-  List<Boards> boards = [];
+  // List<Boards> boards = [];
 
   @override
   void initState() {
     super.initState();
-    getRequest();
+    //getRequest();
     //futureUser = fetchUser();
     //getJsonData();
   }
 
-  Future<void> getRequest() async {
-    final response = await http.get(
-      Uri.parse("http://localhost:3000/boards"),
-      headers: {
-        'x-user-id': 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
-      },
-    );
-    final responseData = json.decode(response.body);
-    final data = responseData.cast<Map<String, dynamic>>();
-    setState(() {
-      for (var list in data) {
-        Boards user1 = Boards(
-          id: list["id"],
-          name: list["name"],
-          color: list["color"],
-          owner: list['owner'],
-        );
-        boards.add(user1);
-      }
-    });
-  }
+  // Future<void> getRequest() async {
+  //   final response = await http.get(
+  //     Uri.parse("http://localhost:3000/boards"),
+  //     headers: {
+  //       'x-user-id': 'ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7',
+  //     },
+  //   );
+  //   final responseData = json.decode(response.body);
+  //   final data = responseData.cast<Map<String, dynamic>>();
+  //   setState(() {
+  //     for (var list in data) {
+  //       Boards user1 = Boards(
+  //         id: list["id"],
+  //         name: list["name"],
+  //         color: list["color"],
+  //         owner: list['owner'],
+  //       );
+  //       boards.add(user1);
+  //     }
+  //   });
+  // }
   /*
     String url1 = "http://localhost:3000/boards";
     final response1 = await http.get(Uri.parse(url), headers: {
