@@ -5,8 +5,8 @@ import 'package:big_in_japan/models/users.dart';
 
 class Now extends StatefulWidget {
   final User? user;
-  final List<Boards> boards;
-  const Now({Key? key, this.user, required this.boards}) : super(key: key);
+  final List<Boards> nowList;
+  const Now({Key? key, this.user, required this.nowList}) : super(key: key);
 
   @override
   State<Now> createState() => _NowState();

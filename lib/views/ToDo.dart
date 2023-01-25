@@ -12,8 +12,8 @@ import "InitialPage.dart";
 
 class ToDo extends StatefulWidget {
   final User? user;
-  final List<Boards> boards;
-  const ToDo({Key? key, this.user, required this.boards}) : super(key: key);
+  final List<Boards> toDoList;
+  const ToDo({Key? key, this.user, required this.toDoList}) : super(key: key);
 
   @override
   State<ToDo> createState() => _ToDoState();

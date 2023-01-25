@@ -32,26 +32,26 @@ class _InitialPageState extends State<InitialPage> {
         pages = [
           ToDo(
             user: widget.user,
-            boards: boards,
+            toDoList: boards,
           ),
           Now(
             user: widget.user,
-            boards: boards,
+            nowList: boards,
           ),
           Done(
             user: widget.user,
-            boards: boards,
+            doneList: boards,
           )
         ];
       });
     });
   }
 
-  Future<List<Boards>> fetchBoards(User? user) async {
+  fetchBoards(User user) async {
     final response = await http.get(
       Uri.parse("http://localhost:3000/boards"),
       headers: {
-        'x-user-id': user?.id ?? '',
+        'x-user-id': user.id,
       },
     );
     final responseData = json.decode(response.body);
@@ -88,7 +88,7 @@ class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[_currentIndex] ?? null,
+      body: pages.length > 0 ? pages[_currentIndex] : null,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

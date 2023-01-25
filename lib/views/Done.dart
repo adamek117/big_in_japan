@@ -5,8 +5,8 @@ import 'package:big_in_japan/models/users.dart';
 
 class Done extends StatefulWidget {
   final User? user;
-  final List<Boards> boards;
-  const Done({Key? key, this.user, required this.boards}) : super(key: key);
+  final List<Boards> doneList;
+  const Done({Key? key, this.user, required this.doneList}) : super(key: key);
 
   @override
   State<Done> createState() => _DoneState();
@@ -14,19 +14,19 @@ class Done extends StatefulWidget {
 
 class _DoneState extends State<Done> {
   final _controller = TextEditingController();
-  List nowList = [
+  List doneList = [
     ["Make", false],
   ];
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
-      nowList[index][1] = !nowList[index][1];
+      doneList[index][1] = !doneList[index][1];
     });
   }
 
   void deleteTask(int index) {
     setState(() {
-      nowList.removeAt(index);
+      doneList.removeAt(index);
     });
   }
 
@@ -64,11 +64,11 @@ class _DoneState extends State<Done> {
         ),
       ),
       body: ListView.builder(
-        itemCount: nowList.length,
+        itemCount: doneList.length,
         itemBuilder: (context, index) {
           return DoneTile(
-            TaskName: nowList[index][0],
-            TaskEnd: nowList[index][1],
+            TaskName: doneList[index][0],
+            TaskEnd: doneList[index][1],
             onChanged: (value) => checkBoxListChanged(value, index),
             deleteFunction: (context) => deleteTask,
           );
