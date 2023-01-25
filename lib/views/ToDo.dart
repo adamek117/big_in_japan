@@ -9,11 +9,13 @@ import '../models/boards.dart';
 import 'loginscreen.dart';
 import 'package:big_in_japan/models/users.dart';
 import "InitialPage.dart";
+import 'package:http/http.dart' as http;
 
 class ToDo extends StatefulWidget {
-  final User? user;
+  final User user;
   final List<Boards> toDoList;
-  const ToDo({Key? key, this.user, required this.toDoList}) : super(key: key);
+  const ToDo({Key? key, required this.user, required this.toDoList})
+      : super(key: key);
 
   @override
   State<ToDo> createState() => _ToDoState();
@@ -21,19 +23,32 @@ class ToDo extends StatefulWidget {
 
 class _ToDoState extends State<ToDo> {
   List toDoList = [];
+  String? boardId;
+  String? columnId;
+  String? nextColumnId;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      if (widget.toDoList.length > 0) {
+      if (widget.toDoList.isNotEmpty) {
         Boards board = widget.toDoList[0];
+        boardId = board.id;
         List? columns = board.columns
             ?.where((column) => column.name == 'todo')
             .toList()
             .cast<dynamic>();
+        List? nextColumns = board.columns
+            ?.where((column) => column.name == 'in progress')
+            .toList()
+            .cast<dynamic>();
 
-        if (columns is List && columns.isNotEmpty) {
+        if (columns is List &&
+            columns.isNotEmpty &&
+            nextColumns is List &&
+            nextColumns.isNotEmpty) {
+          columnId = columns[0].id;
+          nextColumnId = nextColumns[0].id;
           toDoList = List.from(columns[0].tasks);
         }
       }
@@ -44,7 +59,11 @@ class _ToDoState extends State<ToDo> {
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      final response = http.put(
+          Uri.parse(
+              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
+          headers: {'x-user-id': widget.user.id},
+          body: {'columnId': nextColumnId});
     });
   }
 

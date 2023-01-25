@@ -21,6 +21,12 @@
         ]
       },
       {
+        "id": "1117811f4-bdba-47b9-afb7-20b74b3fc72c",
+        "name": "in progress",
+        "color": "#000000",
+        "tasks": []
+      },
+      {
         "id": "8738e421-aac2-431e-8ad8-6a999b42e3e8",
         "name": "done",
         "color": "#123123",

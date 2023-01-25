@@ -2,11 +2,13 @@ import 'package:big_in_japan/models/now_tile.dart';
 import 'package:flutter/material.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
+import 'package:http/http.dart' as http;
 
 class Now extends StatefulWidget {
-  final User? user;
+  final User user;
   final List<Boards> nowList;
-  const Now({Key? key, this.user, required this.nowList}) : super(key: key);
+  const Now({Key? key, required this.user, required this.nowList})
+      : super(key: key);
 
   @override
   State<Now> createState() => _NowState();
@@ -15,6 +17,9 @@ class Now extends StatefulWidget {
 class _NowState extends State<Now> {
   final _controller = TextEditingController();
   List nowList = [];
+  String? boardId;
+  String? columnId;
+  String? nextColumnId;
 
   @override
   void initState() {
@@ -22,12 +27,22 @@ class _NowState extends State<Now> {
     setState(() {
       if (widget.nowList.isNotEmpty) {
         Boards board = widget.nowList[0];
+        boardId = board.id;
         List? columns = board.columns
             ?.where((column) => column.name == 'in progress')
             .toList()
             .cast<dynamic>();
+        List? nextColumns = board.columns
+            ?.where((column) => column.name == 'done')
+            .toList()
+            .cast<dynamic>();
 
-        if (columns is List && columns.isNotEmpty) {
+        if (columns is List &&
+            columns.isNotEmpty &&
+            nextColumns is List &&
+            nextColumns.isNotEmpty) {
+          columnId = columns[0].id;
+          nextColumnId = nextColumns[0].id;
           nowList = List.from(columns[0].tasks);
         }
       }
@@ -36,7 +51,11 @@ class _NowState extends State<Now> {
 
   void checkBoxListChanged(bool? value, int index) {
     setState(() {
-      nowList[index][1] = !nowList[index][1];
+      final response = http.put(
+          Uri.parse(
+              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
+          headers: {'x-user-id': widget.user.id},
+          body: {'columnId': nextColumnId});
     });
   }
 

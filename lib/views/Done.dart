@@ -4,9 +4,10 @@ import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
 
 class Done extends StatefulWidget {
-  final User? user;
+  final User user;
   final List<Boards> doneList;
-  const Done({Key? key, this.user, required this.doneList}) : super(key: key);
+  const Done({Key? key, required this.user, required this.doneList})
+      : super(key: key);
 
   @override
   State<Done> createState() => _DoneState();
