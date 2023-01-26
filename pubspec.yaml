@@ -35,6 +35,7 @@ dependencies:
     sdk: flutter
   dio: ^4.0.0
   flutter_slidable: ^2.0.0
+  syncfusion_flutter_pdf: ^18.4.47-beta
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
