@@ -10,6 +10,9 @@ import 'loginscreen.dart';
 import 'package:big_in_japan/models/users.dart';
 import "InitialPage.dart";
 import 'package:http/http.dart' as http;
+import 'package:pdf/pdf.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ToDo extends StatefulWidget {
   final User user;
@@ -26,7 +29,6 @@ class _ToDoState extends State<ToDo> {
   String? boardId;
   String? columnId;
   String? nextColumnId;
-  bool click = true;
 
   @override
   void initState() {
@@ -72,6 +74,12 @@ class _ToDoState extends State<ToDo> {
     setState(() {
       toDoList.add([_controller.text, false]);
       _controller.clear();
+
+      final response = http.post(
+          Uri.parse(
+              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks}"),
+          headers: {'x-user-id': widget.user.id},
+          body: {''});
     });
     Navigator.of(context).pop();
   }
@@ -95,16 +103,13 @@ class _ToDoState extends State<ToDo> {
     });
   }
 
-  void printToPDF() {
-    //var stringList = toDoList.join("");
-  }
+  Future<void> printToPDF() async {}
 
-  void changeColor() {}
-
+  bool click = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: (click == false) ? Colors.red : Colors.white,
       appBar: AppBar(
         title: const Text("To Do"),
         elevation: 0,
@@ -124,7 +129,11 @@ class _ToDoState extends State<ToDo> {
             ),
             FloatingActionButton(
               heroTag: "btn2",
-              onPressed: changeColor,
+              onPressed: () {
+                setState(() {
+                  click = !click;
+                });
+              },
               child: const Icon(Icons.change_circle),
               backgroundColor: Colors.yellow,
             ),
