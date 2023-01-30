@@ -57,13 +57,13 @@ class _DoneState extends State<Done> {
   }
 
   void printToPDF() {}
-  void changeColor() {}
   bool isChecked = false;
+  bool click = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: (click == false) ? Colors.blue : Colors.white,
         appBar: AppBar(
           title: const Text("Done"),
           elevation: 0,
@@ -83,7 +83,11 @@ class _DoneState extends State<Done> {
               ),
               FloatingActionButton(
                 heroTag: "btn2",
-                onPressed: changeColor,
+                onPressed: () {
+                  setState(() {
+                    click = !click;
+                  });
+                },
                 child: const Icon(Icons.change_circle),
                 backgroundColor: Colors.lime,
               ),

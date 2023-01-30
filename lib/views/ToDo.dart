@@ -77,7 +77,7 @@ class _ToDoState extends State<ToDo> {
 
       // final response = http.post(
       //     Uri.parse(
-      //         "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks}"),
+      //         "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].name}"),
       //     headers: {'x-user-id': widget.user.id},
       //     body: {''});
     });

@@ -72,7 +72,7 @@ class _NowState extends State<Now> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: (click == false) ? Colors.grey : Colors.white,
+        backgroundColor: (click == false) ? Colors.yellow : Colors.white,
         appBar: AppBar(
           title: const Text("In Progress"),
           elevation: 0,
