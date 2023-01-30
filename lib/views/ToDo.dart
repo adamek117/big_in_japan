@@ -75,11 +75,11 @@ class _ToDoState extends State<ToDo> {
       toDoList.add([_controller.text, false]);
       _controller.clear();
 
-      final response = http.post(
-          Uri.parse(
-              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks}"),
-          headers: {'x-user-id': widget.user.id},
-          body: {''});
+      // final response = http.post(
+      //     Uri.parse(
+      //         "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks}"),
+      //     headers: {'x-user-id': widget.user.id},
+      //     body: {''});
     });
     Navigator.of(context).pop();
   }
