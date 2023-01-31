@@ -49,7 +49,7 @@ class _InitialPageState extends State<InitialPage> {
 
   fetchBoards(User user) async {
     final response = await http.get(
-      Uri.parse("http://localhost:3000/boards"),
+      Uri.parse("http://10.0.2.2:3000/boards"),
       headers: {
         'x-user-id': user.id,
       },

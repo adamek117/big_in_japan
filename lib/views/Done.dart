@@ -44,7 +44,7 @@ class _DoneState extends State<Done> {
     setState(() {
       final response = http.delete(
         Uri.parse(
-            "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${doneList[index].id}"),
+            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${doneList[index].id}"),
         headers: {'x-user-id': widget.user.id},
       );
     });
@@ -52,7 +52,11 @@ class _DoneState extends State<Done> {
 
   void deleteTask(int index) {
     setState(() {
-      doneList.removeAt(index);
+      final response = http.delete(
+        Uri.parse(
+            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${doneList[index].id}"),
+        headers: {'x-user-id': widget.user.id},
+      );
     });
   }
 
@@ -98,12 +102,25 @@ class _DoneState extends State<Done> {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 key: Key('${index}'),
+                //background: Container(color: Colors.red),
+                //onDismissed: (direction) {
+                // setState(() {
+                // deleteTask(index);
+                //doneList.removeAt(index);
+                // });
+                // },
                 child: ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0)),
                   leading: Checkbox(
                       value: isChecked,
                       onChanged: (value) {
-                        checkBoxListChanged(value, index);
+                        style:
+                        TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                        );
                         isChecked = !value!;
+                        //checkBoxListChanged(value, index);
                       }),
                   title: Text(doneList[index].name),
                 ),

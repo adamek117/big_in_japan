@@ -53,7 +53,7 @@ class _NowState extends State<Now> {
     setState(() {
       final response = http.put(
           Uri.parse(
-              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
+              "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
     });
@@ -61,7 +61,11 @@ class _NowState extends State<Now> {
 
   void deleteTask(int index) {
     setState(() {
-      nowList.removeAt(index);
+      final response = http.delete(
+        Uri.parse(
+            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
+        headers: {'x-user-id': widget.user.id},
+      );
     });
   }
 
@@ -107,6 +111,12 @@ class _NowState extends State<Now> {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 key: Key('${index}'),
+                //background: Container(color: Colors.red),
+                //onDismissed: (direction) {
+                // setState(() {
+                // deleteTask(index);
+                // });
+                //},
                 child: ListTile(
                   leading: Checkbox(
                       value: isChecked,

@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   Future<void> getRequest() async {
-    String url = "http://localhost:3000/users";
+    String url = "http://10.0.2.2:3000/users";
     final response = await http.get(Uri.parse(url));
     var responseData = json.decode(response.body);
     final b = responseData.cast<Map<String, dynamic>>();
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginScreen> {
         User user = User(
           id: singleUser["id"],
           email: singleUser["email"],
-          roles: singleUser["title"],
+          roles: singleUser["roles"].cast<String>(),
         );
         users.add(user);
       }

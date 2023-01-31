@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:big_in_japan/models/dialog_box.dart';
 import 'package:big_in_japan/models/todo_tile.dart';
-import 'package:flutter/material.dart';
 import '../models/boards.dart';
+import '../models/dialog_box1.dart';
 import 'loginscreen.dart';
 import 'package:big_in_japan/models/users.dart';
 import "InitialPage.dart";
@@ -64,7 +65,7 @@ class _ToDoState extends State<ToDo> {
     setState(() {
       final response = http.put(
           Uri.parse(
-              "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
+              "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
     });
@@ -99,63 +100,132 @@ class _ToDoState extends State<ToDo> {
 
   void deleteTask(int index) {
     setState(() {
-      toDoList.removeAt(index);
+      final response = http.delete(
+        Uri.parse(
+            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
+        headers: {'x-user-id': widget.user.id},
+      );
     });
   }
 
-  Future<void> printToPDF() async {}
+  void onReorder(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    setState(() {
+      final tmp = toDoList.removeAt(oldIndex);
+      toDoList.insert(newIndex, tmp);
+    });
+  }
 
-  bool click = true;
+  void changeColor() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox1(
+          controller: _controller,
+          defaultColor: defaultColor,
+          onSave: saveNewColor,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
+
+  void defaultColor() {
+    setState(() {
+      click = Colors.white;
+    });
+  }
+
+  void saveNewColor() {
+    setState(() {
+      if (_controller.text == "red") {
+        click = Colors.red;
+      }
+      if (_controller.text == "yellow") {
+        click = Colors.yellow;
+      }
+      if (_controller.text == "blue") {
+        click = Colors.blue;
+      }
+      if (_controller.text == "black") {
+        click = Colors.black;
+      }
+      if (_controller.text == "pink") {
+        click = Colors.pink;
+      } else {
+        const Dialog(child: Text("Wrong color"));
+      }
+    });
+    _controller.clear();
+    Navigator.of(context).pop();
+  }
+
+  Future<void> printToPDF() async {}
+  bool isChecked = false;
+  Color click = Colors.white;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (click == false) ? Colors.red : Colors.white,
-      appBar: AppBar(
-        title: const Text("To Do"),
-        elevation: 0,
-        backgroundColor: Colors.blueGrey,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            FloatingActionButton(
-              heroTag: "btn1",
-              onPressed: printToPDF,
-              child: const Icon(Icons.picture_as_pdf),
-              backgroundColor: Colors.red,
-            ),
-            FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: () {
-                setState(() {
-                  click = !click;
-                });
-              },
-              child: const Icon(Icons.change_circle),
-              backgroundColor: Colors.yellow,
-            ),
-            FloatingActionButton(
-              heroTag: "btn3",
-              onPressed: createNewTask,
-              child: const Icon(Icons.add),
-            ),
-          ],
+        backgroundColor: click,
+        //backgroundColor: (click == false) ? Colors.red : Colors.white,
+        appBar: AppBar(
+          title: const Text("To Do"),
+          elevation: 0,
+          backgroundColor: Colors.blueGrey,
         ),
-      ),
-      body: ListView.builder(
-        itemCount: toDoList.length,
-        itemBuilder: (context, index) {
-          return ToDoTile(
-            TaskName: toDoList[index].name,
-            TaskInProgress: false,
-            onChanged: (value) => checkBoxListChanged(value, index),
-            deleteFunction: (context) => deleteTask,
-          );
-        },
-      ),
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: "btn1",
+                onPressed: printToPDF,
+                child: const Icon(Icons.picture_as_pdf),
+                backgroundColor: Colors.red,
+              ),
+              FloatingActionButton(
+                heroTag: "btn2",
+                onPressed: changeColor,
+                child: const Icon(Icons.change_circle),
+                backgroundColor: Colors.yellow,
+              ),
+              FloatingActionButton(
+                heroTag: "btn3",
+                onPressed: createNewTask,
+                child: const Icon(Icons.add),
+              ),
+            ],
+          ),
+        ),
+        body: ReorderableListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Dismissible(
+                  key: Key('${index}'),
+                  background: Container(color: Colors.red),
+                  onDismissed: (direction) {
+                    setState(() {
+                      deleteTask(index);
+                    });
+                  },
+                  child: ListTile(
+                    leading: Checkbox(
+                        value: isChecked,
+                        onChanged: (value) {
+                          style:
+                          TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                          );
+                          checkBoxListChanged(value, index);
+                          isChecked = !value!;
+                        }),
+                    title: Text(toDoList[index].name),
+                  ));
+            },
+            itemCount: toDoList == null ? 0 : toDoList.length,
+            onReorder: onReorder));
   }
 }
