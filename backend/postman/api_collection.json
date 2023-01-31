@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5c104416-fc1c-4755-ae56-b9ac7bc8226f",
+		"_postman_id": "6e7c4781-8135-4bf6-a59c-1caac547def1",
 		"name": "big_in_japan_backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -213,6 +213,44 @@
 		},
 		{
 			"name": "rename task",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "{{userId}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"renamed task\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/boards/3273d781-648f-423b-a13e-bfffc2f2b029/columns/4f729317-16ba-4d93-a242-18be982ed9f5/tasks/86c3cfd4-acf9-4064-96d0-b25fa54db579",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"boards",
+						"3273d781-648f-423b-a13e-bfffc2f2b029",
+						"columns",
+						"4f729317-16ba-4d93-a242-18be982ed9f5",
+						"tasks",
+						"86c3cfd4-acf9-4064-96d0-b25fa54db579"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change column color",
 			"request": {
 				"method": "PUT",
 				"header": [
