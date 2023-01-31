@@ -2,10 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:big_in_japan/models/dialog_box.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
-import 'package:pdf/pdf.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:big_in_japan/models/mobile.dart';
+import "package:pdf/widgets.dart" as p;
 
 class ToDo extends StatefulWidget {
   final User user;
@@ -61,6 +65,11 @@ class _ToDoState extends State<ToDo> {
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
     });
+  }
+
+  print(toDoList) {
+    // TODO: implement print
+    throw UnimplementedError();
   }
 
   void saveNewTask() {
@@ -190,7 +199,69 @@ class _ToDoState extends State<ToDo> {
     Navigator.of(context).pop();
   }*/
 
-  Future<void> printToPDF() async {}
+  /*Future<void> printToPDF() async {
+    PdfDocument document = PdfDocument();
+    final page = document.pages.add();
+    page.graphics.drawString(
+        "To Do tasks of user", PdfStandardFont(PdfFontFamily.helvetica, 30));
+
+    PdfGrid grid = PdfGrid();
+    grid.columns.add(count: 1);
+    grid.headers.add(1);
+    PdfGridRow header = grid.headers[0];
+    header.cells[0].value = 'Tasks';
+    PdfGridRow row = grid.rows.add();
+    if (toDoList.isNotEmpty) {
+      row.cells[0].value = "";
+    } else {
+      row.cells[0].value = "No data to show";
+    }
+    grid.style = PdfGridStyle(
+        cellPadding: PdfPaddings(left: 2, right: 3, top: 4, bottom: 5),
+        backgroundBrush: PdfBrushes.aliceBlue,
+        textBrush: PdfBrushes.white,
+        font: PdfStandardFont(PdfFontFamily.helvetica, 20));
+    grid.draw(
+        page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
+    List<int> bytes = document.saveSync();
+    document.dispose();
+
+    saveAndLaunchFile(bytes, 'Output.pdf');
+  }*/
+
+  Future<void> printToPDF() async {
+    List<p.Widget> widgets = [];
+    widgets.add(
+      p.Text(
+        "To do Tasks of user",
+        style: p.TextStyle(fontSize: 25, fontWeight: p.FontWeight.bold),
+      ),
+    );
+    widgets.add(p.SizedBox(height: 15));
+    for (int i = 0; i < toDoList.length; i++) {
+      String task = toDoList[i].name.toString();
+      widgets.add(
+        p.Text(
+          task,
+          style: const p.TextStyle(color: PdfColors.black, fontSize: 15),
+        ),
+      );
+      widgets.add(p.SizedBox(height: 10));
+    }
+    final pdf = p.Document();
+    pdf.addPage(
+      p.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (context) => widgets,
+      ),
+    );
+    Navigator.of(context).pop();
+    Printing.layoutPdf(
+      name: "Tasks of users",
+      onLayout: (PdfPageFormat) async => pdf.save(),
+    );
+  }
+
   bool isChecked = false;
   Color mycolor = Colors.white;
   var hex;
@@ -213,14 +284,14 @@ class _ToDoState extends State<ToDo> {
               FloatingActionButton(
                 heroTag: "btn1",
                 onPressed: printToPDF,
-                child: const Icon(Icons.picture_as_pdf),
                 backgroundColor: Colors.red,
+                child: const Icon(Icons.picture_as_pdf),
               ),
               FloatingActionButton(
                 heroTag: "btn2",
                 onPressed: changeColor,
-                child: const Icon(Icons.change_circle),
                 backgroundColor: Colors.yellow,
+                child: const Icon(Icons.change_circle),
               ),
               FloatingActionButton(
                 heroTag: "btn3",

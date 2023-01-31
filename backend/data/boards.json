@@ -10,10 +10,7 @@
         "name": "todo",
         "color": "#000000",
         "tasks": [
-          {
-            "id": "ef659634-a0dc-11ed-a8fc-0242ac120002",
-            "name": "szydelkowanie"
-          }
+          { "id": "e23b7799-c87e-4533-be9b-d96a6e607fcd", "name": "pranie" }
         ]
       },
       {
@@ -21,7 +18,10 @@
         "name": "in progress",
         "color": "#000000",
         "tasks": [
-          { "id": "e23b7799-c87e-4533-be9b-d96a6e607fcd", "name": "pranie" }
+          {
+            "id": "ef659634-a0dc-11ed-a8fc-0242ac120002",
+            "name": "szydelkowanie"
+          }
         ]
       },
       {
