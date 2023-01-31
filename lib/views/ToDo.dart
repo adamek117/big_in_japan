@@ -10,6 +10,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:big_in_japan/models/mobile.dart';
 import "package:pdf/widgets.dart" as p;
+import 'package:uuid/uuid.dart';
 
 class ToDo extends StatefulWidget {
   final User user;
@@ -74,14 +75,15 @@ class _ToDoState extends State<ToDo> {
 
   void saveNewTask() {
     setState(() {
-      toDoList.add([_controller.text, false]);
+      final task = Tasks(id: Uuid().v4(), name: _controller.text);
+      toDoList.add(task);
       _controller.clear();
 
-      // final response = http.post(
-      //     Uri.parse(
-      //         "http://localhost:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].name}"),
-      //     headers: {'x-user-id': widget.user.id},
-      //     body: {''});
+      final response = http.post(
+          Uri.parse(
+              "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
+          headers: {'x-user-id': widget.user.id},
+          body: {'id': task.id, 'name': task.name});
     });
     Navigator.of(context).pop();
   }
