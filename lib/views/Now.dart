@@ -1,4 +1,4 @@
-import 'package:big_in_japan/models/now_tile.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
@@ -69,14 +69,61 @@ class _NowState extends State<Now> {
     });
   }
 
+  void onReorder(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    setState(() {
+      final tmp = nowList.removeAt(oldIndex);
+      nowList.insert(newIndex, tmp);
+    });
+  }
+
+  void changeColor() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Pick a color!'),
+            content: SingleChildScrollView(
+              child: ColorPicker(
+                borderColor: mycolor, //default color
+                onColorChanged: (Color color) {
+                  //on color picked
+                  setState(() {
+                    mycolor = color;
+                    hex = '#${mycolor.value.toRadixString(16)}';
+                  });
+                },
+              ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text('DONE'),
+                onPressed: () {
+                  setState(() {
+                    final response = http.put(
+                        Uri.parse(
+                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/color/${hex}"),
+                        headers: {'x-user-id': widget.user.id},
+                        body: {'color': hex});
+                  });
+                  Navigator.of(context).pop(); //dismiss the color picker
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   void printToPDF() {}
   bool isChecked = false;
-
-  bool click = true;
+  Color mycolor = Colors.white;
+  var hex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: (click == false) ? Colors.yellow : Colors.white,
+        backgroundColor: mycolor,
         appBar: AppBar(
           title: const Text("In Progress"),
           elevation: 0,
@@ -96,11 +143,7 @@ class _NowState extends State<Now> {
               ),
               FloatingActionButton(
                 heroTag: "btn2",
-                onPressed: () {
-                  setState(() {
-                    click = !click;
-                  });
-                },
+                onPressed: changeColor,
                 child: const Icon(Icons.change_circle),
                 backgroundColor: Colors.lime,
               ),
@@ -129,15 +172,6 @@ class _NowState extends State<Now> {
               );
             },
             itemCount: nowList == null ? 0 : nowList.length,
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) {
-                  newIndex -= 1;
-                }
-                final tmp = nowList.removeAt(oldIndex);
-
-                nowList.insert(newIndex, tmp);
-              });
-            }));
+            onReorder: onReorder));
   }
 }

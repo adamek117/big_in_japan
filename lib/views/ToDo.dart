@@ -1,19 +1,11 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:big_in_japan/models/dialog_box.dart';
-import 'package:big_in_japan/models/todo_tile.dart';
 import '../models/boards.dart';
-import '../models/dialog_box1.dart';
-import 'loginscreen.dart';
 import 'package:big_in_japan/models/users.dart';
-import "InitialPage.dart";
-import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 class ToDo extends StatefulWidget {
   final User user;
@@ -120,6 +112,42 @@ class _ToDoState extends State<ToDo> {
 
   void changeColor() {
     showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Pick a color!'),
+            content: SingleChildScrollView(
+              child: ColorPicker(
+                borderColor: mycolor, //default color
+                onColorChanged: (Color color) {
+                  //on color picked
+                  setState(() {
+                    mycolor = color;
+                    hex = '#${mycolor.value.toRadixString(16)}';
+                  });
+                },
+              ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text('DONE'),
+                onPressed: () {
+                  setState(() {
+                    final response = http.put(
+                        Uri.parse(
+                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/color/${hex}"),
+                        headers: {'x-user-id': widget.user.id},
+                        body: {'color': hex});
+                  });
+                  Navigator.of(context).pop(); //dismiss the color picker
+                },
+              ),
+            ],
+          );
+        });
+    /*setState(() {
+    });*/
+    /*showDialog(
       context: context,
       builder: (context) {
         return DialogBox1(
@@ -129,16 +157,16 @@ class _ToDoState extends State<ToDo> {
           onCancel: () => Navigator.of(context).pop(),
         );
       },
-    );
+    );*/
   }
 
-  void defaultColor() {
+  /*void defaultColor() {
     setState(() {
       click = Colors.white;
     });
-  }
+  }*/
 
-  void saveNewColor() {
+  /*void saveNewColor() {
     setState(() {
       if (_controller.text == "red") {
         click = Colors.red;
@@ -160,15 +188,16 @@ class _ToDoState extends State<ToDo> {
     });
     _controller.clear();
     Navigator.of(context).pop();
-  }
+  }*/
 
   Future<void> printToPDF() async {}
   bool isChecked = false;
-  Color click = Colors.white;
+  Color mycolor = Colors.white;
+  var hex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: click,
+        backgroundColor: mycolor,
         //backgroundColor: (click == false) ? Colors.red : Colors.white,
         appBar: AppBar(
           title: const Text("To Do"),

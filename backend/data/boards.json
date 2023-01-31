@@ -10,10 +10,9 @@
         "name": "todo",
         "color": "#000000",
         "tasks": [
-          { "id": "aa465986-39ec-43f0-800a-9630c6d4732f", "name": "zakupy" },
           {
             "id": "ef659634-a0dc-11ed-a8fc-0242ac120002",
-            "name": "szydełkowanie"
+            "name": "szydelkowanie"
           }
         ]
       },

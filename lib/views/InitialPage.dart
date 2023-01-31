@@ -6,7 +6,6 @@ import 'Now.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import '../models/boards.dart';
 
 class InitialPage extends StatefulWidget {
