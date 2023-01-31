@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:http/http.dart' as http;
+import "package:pdf/widgets.dart" as p;
+import 'package:uuid/uuid.dart';
+import 'package:string_to_color/string_to_color.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 
 class Done extends StatefulWidget {
   final User user;
@@ -19,6 +24,7 @@ class _DoneState extends State<Done> {
   List doneList = [];
   String? boardId;
   String? columnId;
+  String color1 = "";
 
   @override
   void initState() {
@@ -35,6 +41,7 @@ class _DoneState extends State<Done> {
         if (columns is List && columns.isNotEmpty) {
           columnId = columns[0].id;
           doneList = List.from(columns[0].tasks);
+          color1 = columns[0].color;
         }
       }
     });
@@ -107,13 +114,46 @@ class _DoneState extends State<Done> {
         });
   }
 
-  void printToPDF() {}
+  Future<void> printToPDF() async {
+    List<p.Widget> widgets = [];
+    widgets.add(
+      p.Text(
+        "To do Tasks of user",
+        style: p.TextStyle(fontSize: 25, fontWeight: p.FontWeight.bold),
+      ),
+    );
+    widgets.add(p.SizedBox(height: 15));
+    for (int i = 0; i < doneList.length; i++) {
+      String task = doneList[i].name.toString();
+      widgets.add(
+        p.Text(
+          task,
+          style: const p.TextStyle(color: PdfColors.black, fontSize: 15),
+        ),
+      );
+      widgets.add(p.SizedBox(height: 10));
+    }
+    final pdf = p.Document();
+    pdf.addPage(
+      p.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (context) => widgets,
+      ),
+    );
+    Navigator.of(context).pop();
+    Printing.layoutPdf(
+      name: "Tasks of users",
+      onLayout: (PdfPageFormat) async => pdf.save(),
+    );
+  }
+
   bool isChecked = false;
   Color mycolor = Colors.white;
   var hex;
 
   @override
   Widget build(BuildContext context) {
+    mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
         backgroundColor: mycolor,
         appBar: AppBar(

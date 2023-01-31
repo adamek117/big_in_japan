@@ -7,10 +7,9 @@ import 'package:printing/printing.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:big_in_japan/models/mobile.dart';
 import "package:pdf/widgets.dart" as p;
 import 'package:uuid/uuid.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 class ToDo extends StatefulWidget {
   final User user;
@@ -27,6 +26,7 @@ class _ToDoState extends State<ToDo> {
   String? boardId;
   String? columnId;
   String? nextColumnId;
+  String color1 = "";
 
   @override
   void initState() {
@@ -51,6 +51,7 @@ class _ToDoState extends State<ToDo> {
           columnId = columns[0].id;
           nextColumnId = nextColumns[0].id;
           toDoList = List.from(columns[0].tasks);
+          color1 = columns[0].color;
         }
       }
     });
@@ -66,11 +67,6 @@ class _ToDoState extends State<ToDo> {
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
     });
-  }
-
-  print(toDoList) {
-    // TODO: implement print
-    throw UnimplementedError();
   }
 
   void saveNewTask() {
@@ -146,7 +142,7 @@ class _ToDoState extends State<ToDo> {
                   setState(() {
                     final response = http.put(
                         Uri.parse(
-                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/color/${hex}"),
+                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
                         headers: {'x-user-id': widget.user.id},
                         body: {'color': hex});
                   });
@@ -156,9 +152,10 @@ class _ToDoState extends State<ToDo> {
             ],
           );
         });
-    /*setState(() {
+  }
+  /*setState(() {
     });*/
-    /*showDialog(
+  /*showDialog(
       context: context,
       builder: (context) {
         return DialogBox1(
@@ -169,13 +166,6 @@ class _ToDoState extends State<ToDo> {
         );
       },
     );*/
-  }
-
-  /*void defaultColor() {
-    setState(() {
-      click = Colors.white;
-    });
-  }*/
 
   /*void saveNewColor() {
     setState(() {
@@ -269,6 +259,7 @@ class _ToDoState extends State<ToDo> {
   var hex;
   @override
   Widget build(BuildContext context) {
+    mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
         backgroundColor: mycolor,
         //backgroundColor: (click == false) ? Colors.red : Colors.white,

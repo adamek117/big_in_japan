@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:http/http.dart' as http;
+import "package:pdf/widgets.dart" as p;
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
+import 'package:uuid/uuid.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 class Now extends StatefulWidget {
   final User user;
@@ -20,6 +26,7 @@ class _NowState extends State<Now> {
   String? boardId;
   String? columnId;
   String? nextColumnId;
+  String color1 = "";
 
   @override
   void initState() {
@@ -44,6 +51,7 @@ class _NowState extends State<Now> {
           columnId = columns[0].id;
           nextColumnId = nextColumns[0].id;
           nowList = List.from(columns[0].tasks);
+          color1 = columns[0].color;
         }
       }
     });
@@ -104,7 +112,7 @@ class _NowState extends State<Now> {
                   setState(() {
                     final response = http.put(
                         Uri.parse(
-                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/color/${hex}"),
+                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
                         headers: {'x-user-id': widget.user.id},
                         body: {'color': hex});
                   });
@@ -116,12 +124,45 @@ class _NowState extends State<Now> {
         });
   }
 
-  void printToPDF() {}
+  Future<void> printToPDF() async {
+    List<p.Widget> widgets = [];
+    widgets.add(
+      p.Text(
+        "To do Tasks of user",
+        style: p.TextStyle(fontSize: 25, fontWeight: p.FontWeight.bold),
+      ),
+    );
+    widgets.add(p.SizedBox(height: 15));
+    for (int i = 0; i < nowList.length; i++) {
+      String task = nowList[i].name.toString();
+      widgets.add(
+        p.Text(
+          task,
+          style: const p.TextStyle(color: PdfColors.black, fontSize: 15),
+        ),
+      );
+      widgets.add(p.SizedBox(height: 10));
+    }
+    final pdf = p.Document();
+    pdf.addPage(
+      p.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (context) => widgets,
+      ),
+    );
+    Navigator.of(context).pop();
+    Printing.layoutPdf(
+      name: "Tasks of users",
+      onLayout: (PdfPageFormat) async => pdf.save(),
+    );
+  }
+
   bool isChecked = false;
   Color mycolor = Colors.white;
   var hex;
   @override
   Widget build(BuildContext context) {
+    mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
         backgroundColor: mycolor,
         appBar: AppBar(
