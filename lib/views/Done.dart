@@ -198,12 +198,16 @@ class _DoneState extends State<Done> {
               child: ListTile(
                 leading: Checkbox(
                     value: isChecked,
+                    activeColor: Colors.black,
                     onChanged: (value) {
-                      checkBoxListChanged(value, index);
-                      isChecked = !value!;
+                      isChecked = value!;
+                      //checkBoxListChanged(value, index);
                     }),
-                title: Text(doneList[index].name),
-                hoverColor: Colors.blue,
+                title: Text(doneList[index].name,
+                    style: TextStyle(
+                        decoration: isChecked
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none)),
               ),
             ),
           );

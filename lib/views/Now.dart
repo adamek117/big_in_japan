@@ -214,8 +214,8 @@ class _NowState extends State<Now> {
                 leading: Checkbox(
                     value: isChecked,
                     onChanged: (value) {
-                      checkBoxListChanged(value, index);
                       isChecked = !value!;
+                      checkBoxListChanged(value, index);
                     }),
                 title: Text(nowList[index].name),
                 hoverColor: Colors.blue,
