@@ -26,7 +26,7 @@ class _ToDoState extends State<ToDo> {
   String? boardId;
   String? columnId;
   String? nextColumnId;
-  String color1 = "";
+  Color columnColor = Colors.white;
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _ToDoState extends State<ToDo> {
           columnId = columns[0].id;
           nextColumnId = nextColumns[0].id;
           toDoList = List.from(columns[0].tasks);
-          color1 = columns[0].color;
+          columnColor = Color(int.parse(columns[0].color));
         }
       }
     });
@@ -127,12 +127,11 @@ class _ToDoState extends State<ToDo> {
             title: Text('Pick a color!'),
             content: SingleChildScrollView(
               child: ColorPicker(
-                borderColor: mycolor, //default color
+                borderColor: columnColor, //default color
                 onColorChanged: (Color color) {
                   //on color picked
                   setState(() {
-                    mycolor = color;
-                    hex = '#${mycolor.value.toRadixString(16).padLeft(6, '0')}';
+                    columnColor = color;
                   });
                 },
               ),
@@ -146,7 +145,7 @@ class _ToDoState extends State<ToDo> {
                         Uri.parse(
                             "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
                         headers: {'x-user-id': widget.user.id},
-                        body: {'color': hex});
+                        body: {'color': columnColor.value.toString()});
                   });
                   Navigator.of(context).pop(); //dismiss the color picker
                 },
@@ -257,13 +256,10 @@ class _ToDoState extends State<ToDo> {
   }
 
   bool isChecked = false;
-  Color mycolor = Colors.white;
-  var hex;
   @override
   Widget build(BuildContext context) {
-    mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
-        backgroundColor: mycolor,
+        backgroundColor: columnColor,
         appBar: AppBar(
           title: const Text("To Do"),
           elevation: 0,

@@ -8,7 +8,7 @@
         {
           "id": "587811f4-bdba-47b9-afb7-20b74b3fc72c",
           "name": "todo",
-          "color": "#000000",
+          "color": "4294924066",
           "tasks": [
             { "id": "e23b7799-c87e-4533-be9b-d96a6e607fcd", "name": "pranie" }
           ]
@@ -16,7 +16,7 @@
         {
           "id": "1117811f4-bdba-47b9-afb7-20b74b3fc72c",
           "name": "in progress",
-          "color": "#000000",
+          "color": "4294924000",
           "tasks": [
             {
               "id": "ef659634-a0dc-11ed-a8fc-0242ac120002",
@@ -27,7 +27,7 @@
         {
           "id": "8738e421-aac2-431e-8ad8-6a999b42e3e8",
           "name": "done",
-          "color": "#123123",
+          "color": "9994924000",
           "tasks": []
         }
       ]
@@ -35,7 +35,7 @@
     {
       "id": "3273d781-648f-423b-a13e-bfffc2f2b029",
       "name": "sport",
-      "color": "#111111",
+      "color": "1194924000",
       "owner": "a43b3af3-c099-43b8-80da-fbe4613db542",
       "columns": [
         {
@@ -49,7 +49,7 @@
         {
           "id": "f16a815e-09cb-4584-a526-f9c489d41d2d",
           "name": "in progress",
-          "color": "#000000",
+          "color": "5594922056",
           "tasks": [
             { "id": "350ebfe7-4b93-4099-a8ee-776c7f7e8410", "name": "bieganie" },
             { "id": "86c3cfd4-acf9-4064-96d0-b25fa54db579", "name": "joga" }
@@ -58,7 +58,7 @@
         {
           "id": "3bf7a1b2-32ca-4a16-8032-77b22e8410ba",
           "name": "done",
-          "color": "#123123",
+          "color": "5594922099",
           "tasks": [
             { "id": "c1ddab78-eef1-4493-ad24-11aebc1339e1", "name": "stretching" }
           ]

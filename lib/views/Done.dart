@@ -24,7 +24,7 @@ class _DoneState extends State<Done> {
   List doneList = [];
   String? boardId;
   String? columnId;
-  String color1 = "";
+  Color columnColor = Colors.white;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _DoneState extends State<Done> {
         if (columns is List && columns.isNotEmpty) {
           columnId = columns[0].id;
           doneList = List.from(columns[0].tasks);
-          color1 = columns[0].color;
+          columnColor = Color(int.parse(columns[0].color));
         }
       }
     });
@@ -87,12 +87,11 @@ class _DoneState extends State<Done> {
             title: Text('Pick a color!'),
             content: SingleChildScrollView(
               child: ColorPicker(
-                borderColor: mycolor, //default color
+                borderColor: columnColor, //default color
                 onColorChanged: (Color color) {
                   //on color picked
                   setState(() {
-                    mycolor = color;
-                    hex = '#${mycolor.value.toRadixString(16)}';
+                    columnColor = color;
                   });
                 },
               ),
@@ -106,7 +105,7 @@ class _DoneState extends State<Done> {
                         Uri.parse(
                             "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
                         headers: {'x-user-id': widget.user.id},
-                        body: {'color': hex});
+                        body: {'color': columnColor.value.toString()});
                   });
                   Navigator.of(context).pop(); //dismiss the color picker
                 },
@@ -150,14 +149,10 @@ class _DoneState extends State<Done> {
   }
 
   bool isChecked = false;
-  Color mycolor = Colors.white;
-  var hex;
-
   @override
   Widget build(BuildContext context) {
-    mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
-        backgroundColor: mycolor,
+        backgroundColor: columnColor,
         appBar: AppBar(
           title: const Text("Done"),
           elevation: 0,
