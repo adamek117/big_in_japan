@@ -256,7 +256,6 @@ class _ToDoState extends State<ToDo> {
         build: (context) => widgets,
       ),
     );
-    Navigator.of(context).pop();
     Printing.layoutPdf(
       name: "Tasks of users",
       onLayout: (PdfPageFormat) async => pdf.save(),
@@ -267,65 +266,74 @@ class _ToDoState extends State<ToDo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: columnColor,
-        appBar: AppBar(
-          title: const Text("To Do"),
-          elevation: 0,
-          backgroundColor: Colors.blueGrey,
+      backgroundColor: columnColor,
+      appBar: AppBar(
+        title: const Text("To Do"),
+        elevation: 0,
+        backgroundColor: Colors.blueGrey,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FloatingActionButton(
+              heroTag: "btn1",
+              onPressed: printToPDF,
+              backgroundColor: Colors.red,
+              child: const Icon(Icons.picture_as_pdf),
+            ),
+            FloatingActionButton(
+              heroTag: "btn3",
+              onPressed: createNewTask,
+              child: const Icon(Icons.add),
+            ),
+            FloatingActionButton(
+              heroTag: "btn2",
+              onPressed: changeColor,
+              backgroundColor: Colors.lime,
+              child: const Icon(Icons.colorize),
+            ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FloatingActionButton(
-                heroTag: "btn1",
-                onPressed: printToPDF,
-                backgroundColor: Colors.red,
-                child: const Icon(Icons.picture_as_pdf),
-              ),
-              FloatingActionButton(
-                heroTag: "btn3",
-                onPressed: createNewTask,
-                child: const Icon(Icons.add),
-              ),
-              FloatingActionButton(
-                heroTag: "btn2",
-                onPressed: changeColor,
-                backgroundColor: Colors.lime,
-                child: const Icon(Icons.colorize),
-              ),
-            ],
-          ),
-        ),
-        body: ReorderableListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  key: Key('${index}'),
-                  /* background: Container(color: Colors.red),
-                  onDismissed: (direction) {
-                    setState(() {
-                      deleteTask(index);
-                    });
-                  },*/
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0)),
-                    leading: Checkbox(
-                        value: isChecked,
-                        onChanged: (value) {
-                          style:
-                          TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                          );
-                          checkBoxListChanged(value, index);
-                          isChecked = !value!;
-                        }),
-                    title: Text(toDoList[index].name),
-                  ));
+      ),
+      body: ReorderableListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return Dismissible(
+            key: Key('${index}'),
+            background: Container(color: Colors.red),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              setState(() {
+                deleteTask(index);
+                toDoList.removeAt(index);
+              });
             },
-            itemCount: toDoList == null ? 0 : toDoList.length,
-            onReorder: onReorder));
+            child: Card(
+              child: ListTile(
+                leading: Checkbox(
+                    value: isChecked,
+                    onChanged: (value) {
+                      checkBoxListChanged(value, index);
+                      isChecked = !value!;
+                    }),
+                title: Text(toDoList[index].name),
+                hoverColor: Colors.blue,
+              ),
+            ),
+          );
+        },
+        itemCount: toDoList == null ? 0 : toDoList.length,
+        onReorder: (int oldIndex, int newIndex) {
+          if (newIndex > oldIndex) {
+            newIndex -= 1;
+          }
+          final item = toDoList[oldIndex].name;
+          toDoList.removeAt(oldIndex);
+          toDoList.insert(newIndex, item);
+        },
+      ),
+    );
   }
 }

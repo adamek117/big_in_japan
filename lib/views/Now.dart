@@ -159,7 +159,6 @@ class _NowState extends State<Now> {
         build: (context) => widgets,
       ),
     );
-    Navigator.of(context).pop();
     Printing.layoutPdf(
       name: "Tasks of users",
       onLayout: (PdfPageFormat) async => pdf.save(),
@@ -170,64 +169,69 @@ class _NowState extends State<Now> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: columnColor,
-        appBar: AppBar(
-          title: const Text("In Progress"),
-          elevation: 0,
-          backgroundColor: Colors.blueGrey,
+      backgroundColor: columnColor,
+      appBar: AppBar(
+        title: const Text("In Progress"),
+        elevation: 0,
+        backgroundColor: Colors.blueGrey,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FloatingActionButton(
+              heroTag: "btn1",
+              onPressed: printToPDF,
+              backgroundColor: Colors.red,
+              child: const Icon(Icons.picture_as_pdf),
+            ),
+            FloatingActionButton(
+              heroTag: "btn2",
+              onPressed: changeColor,
+              backgroundColor: Colors.lime,
+              child: const Icon(Icons.colorize),
+            ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FloatingActionButton(
-                heroTag: "btn1",
-                onPressed: printToPDF,
-                child: const Icon(Icons.picture_as_pdf),
-                backgroundColor: Colors.red,
-              ),
-              FloatingActionButton(
-                heroTag: "btn2",
-                onPressed: changeColor,
-                child: const Icon(Icons.colorize),
-                backgroundColor: Colors.lime,
-              ),
-            ],
-          ),
-        ),
-        body: ReorderableListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                key: ValueKey(index),
-                //background: Container(color: Colors.red),
-                //onDismissed: (direction) {
-                // setState(() {
-                // deleteTask(index);
-                // });
-                //},
-                child: ListTile(
-                  leading: Checkbox(
-                      value: isChecked,
-                      onChanged: (value) {
-                        checkBoxListChanged(value, index);
-                        isChecked = !value!;
-                      }),
-                  title: Text(nowList[index].name),
-                ),
-              );
-            },
-            itemCount: nowList == null ? 0 : nowList.length,
-            onReorder: (int oldIndex, int newIndex) {
-              if (newIndex > oldIndex) {
-                newIndex-- - 1;
-              }
+      ),
+      body: ReorderableListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return Dismissible(
+            key: Key('${index}'),
+            background: Container(color: Colors.red),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
               setState(() {
-                final item = nowList[oldIndex].name;
-                nowList.removeAt(oldIndex);
-                nowList.insert(newIndex, item);
+                deleteTask(index);
+                nowList.removeAt(index);
               });
-            }));
+            },
+            child: Card(
+              child: ListTile(
+                leading: Checkbox(
+                    value: isChecked,
+                    onChanged: (value) {
+                      checkBoxListChanged(value, index);
+                      isChecked = !value!;
+                    }),
+                title: Text(nowList[index].name),
+                hoverColor: Colors.blue,
+              ),
+            ),
+          );
+        },
+        itemCount: nowList == null ? 0 : nowList.length,
+        onReorder: (int oldIndex, int newIndex) {
+          if (newIndex > oldIndex) {
+            newIndex -= 1;
+          }
+          final item = nowList[oldIndex].name;
+          nowList.removeAt(oldIndex);
+          nowList.insert(newIndex, item);
+        },
+      ),
+    );
   }
 }
