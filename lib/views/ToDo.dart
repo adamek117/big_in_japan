@@ -282,15 +282,15 @@ class _ToDoState extends State<ToDo> {
                 child: const Icon(Icons.picture_as_pdf),
               ),
               FloatingActionButton(
+                heroTag: "btn3",
+                onPressed: createNewTask,
+                child: const Icon(Icons.add),
+              ),
+              FloatingActionButton(
                 heroTag: "btn2",
                 onPressed: changeColor,
                 backgroundColor: Colors.lime,
                 child: const Icon(Icons.colorize),
-              ),
-              FloatingActionButton(
-                heroTag: "btn3",
-                onPressed: createNewTask,
-                child: const Icon(Icons.add),
               ),
             ],
           ),
