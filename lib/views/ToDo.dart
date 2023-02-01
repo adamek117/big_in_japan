@@ -111,6 +111,8 @@ class _ToDoState extends State<ToDo> {
             "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
         headers: {'x-user-id': widget.user.id},
       );
+      toDoList.removeAt(index);
+      widget.toDoList[0].columns?[0].tasks?.removeAt(index);
     });
   }
 
@@ -269,7 +271,6 @@ class _ToDoState extends State<ToDo> {
             onDismissed: (direction) {
               setState(() {
                 deleteTask(index);
-                toDoList.removeAt(index);
               });
             },
             child: Card(

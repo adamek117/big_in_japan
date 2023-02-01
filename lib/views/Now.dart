@@ -80,6 +80,8 @@ class _NowState extends State<Now> {
             "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
         headers: {'x-user-id': widget.user.id},
       );
+      nowList.removeAt(index);
+      widget.nowList[0].columns?[1].tasks?.removeAt(index);
     });
   }
 
@@ -205,7 +207,6 @@ class _NowState extends State<Now> {
             onDismissed: (direction) {
               setState(() {
                 deleteTask(index);
-                nowList.removeAt(index);
               });
             },
             child: Card(
