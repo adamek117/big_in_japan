@@ -112,8 +112,10 @@ class _ToDoState extends State<ToDo> {
       newIndex -= 1;
     }
     setState(() {
-      final tmp = toDoList.removeAt(oldIndex);
-      toDoList.insert(newIndex, tmp);
+      final int item = toDoList.removeAt(oldIndex);
+      toDoList.insert(newIndex, item);
+      /*final tmp = toDoList.removeAt(oldIndex);
+      toDoList.insert(newIndex, tmp);*/
     });
   }
 
@@ -295,15 +297,17 @@ class _ToDoState extends State<ToDo> {
         ),
         body: ReorderableListView.builder(
             itemBuilder: (BuildContext context, int index) {
-              return Dismissible(
+              return Card(
                   key: Key('${index}'),
-                  background: Container(color: Colors.red),
+                  /* background: Container(color: Colors.red),
                   onDismissed: (direction) {
                     setState(() {
                       deleteTask(index);
                     });
-                  },
+                  },*/
                   child: ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
                     leading: Checkbox(
                         value: isChecked,
                         onChanged: (value) {

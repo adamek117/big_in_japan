@@ -82,8 +82,10 @@ class _NowState extends State<Now> {
       newIndex -= 1;
     }
     setState(() {
-      final tmp = nowList.removeAt(oldIndex);
-      nowList.insert(newIndex, tmp);
+      final int item = nowList.removeAt(oldIndex);
+      nowList.insert(newIndex, item);
+      /*final tmp = nowList.removeAt(oldIndex);
+      nowList.insert(newIndex, tmp);*/
     });
   }
 
@@ -208,11 +210,23 @@ class _NowState extends State<Now> {
                         checkBoxListChanged(value, index);
                         isChecked = !value!;
                       }),
+                  key: ValueKey(nowList[index].name),
                   title: Text(nowList[index].name),
                 ),
               );
             },
             itemCount: nowList == null ? 0 : nowList.length,
-            onReorder: onReorder));
+            onReorder: (int oldIndex, int newIndex) {
+              if (newIndex > oldIndex) {
+                newIndex -= 1;
+              }
+              setState(() {
+                final int item = nowList[oldIndex];
+                nowList.removeAt(oldIndex);
+                nowList.insert(newIndex, item);
+                /*final tmp = nowList.removeAt(oldIndex);
+                nowList.insert(newIndex, tmp);*/
+              });
+            }));
   }
 }

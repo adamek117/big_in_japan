@@ -72,8 +72,10 @@ class _DoneState extends State<Done> {
       newIndex -= 1;
     }
     setState(() {
-      final tmp = doneList.removeAt(oldIndex);
-      doneList.insert(newIndex, tmp);
+      final int item = doneList.removeAt(oldIndex);
+      doneList.insert(newIndex, item);
+      /*final tmp = doneList.removeAt(oldIndex);
+      doneList.insert(newIndex, tmp);*/
     });
   }
 
@@ -204,7 +206,7 @@ class _DoneState extends State<Done> {
                           decoration: TextDecoration.lineThrough,
                         );
                         isChecked = !value!;
-                        //checkBoxListChanged(value, index);
+                        checkBoxListChanged(value, index);
                       }),
                   title: Text(doneList[index].name),
                 ),
