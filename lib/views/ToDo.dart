@@ -79,6 +79,7 @@ class _ToDoState extends State<ToDo> {
     setState(() {
       final task = Tasks(id: Uuid().v4(), name: _controller.text);
       toDoList.add(task);
+      widget.toDoList[0].columns?[0].tasks?.add(task);
       _controller.clear();
 
       final response = http.post(
