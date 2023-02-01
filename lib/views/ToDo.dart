@@ -131,6 +131,8 @@ class _ToDoState extends State<ToDo> {
                 onColorChanged: (Color color) {
                   //on color picked
                   setState(() {
+                    widget.toDoList[0].columns?[2].color =
+                        color.value.toString();
                     columnColor = color;
                   });
                 },

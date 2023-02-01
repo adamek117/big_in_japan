@@ -91,6 +91,8 @@ class _DoneState extends State<Done> {
                 onColorChanged: (Color color) {
                   //on color picked
                   setState(() {
+                    widget.doneList[0].columns?[2].color =
+                        color.value.toString();
                     columnColor = color;
                   });
                 },
