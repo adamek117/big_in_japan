@@ -284,8 +284,8 @@ class _ToDoState extends State<ToDo> {
               FloatingActionButton(
                 heroTag: "btn2",
                 onPressed: changeColor,
-                backgroundColor: Colors.yellow,
-                child: const Icon(Icons.change_circle),
+                backgroundColor: Colors.lime,
+                child: const Icon(Icons.colorize),
               ),
               FloatingActionButton(
                 heroTag: "btn3",

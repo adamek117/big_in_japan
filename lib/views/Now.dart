@@ -196,7 +196,7 @@ class _NowState extends State<Now> {
         body: ReorderableListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                key: Key('${index}'),
+                key: ValueKey(index),
                 //background: Container(color: Colors.red),
                 //onDismissed: (direction) {
                 // setState(() {
@@ -210,7 +210,6 @@ class _NowState extends State<Now> {
                         checkBoxListChanged(value, index);
                         isChecked = !value!;
                       }),
-                  key: ValueKey(nowList[index].name),
                   title: Text(nowList[index].name),
                 ),
               );
@@ -218,14 +217,12 @@ class _NowState extends State<Now> {
             itemCount: nowList == null ? 0 : nowList.length,
             onReorder: (int oldIndex, int newIndex) {
               if (newIndex > oldIndex) {
-                newIndex -= 1;
+                newIndex-- - 1;
               }
               setState(() {
-                final int item = nowList[oldIndex];
+                final item = nowList[oldIndex].name;
                 nowList.removeAt(oldIndex);
                 nowList.insert(newIndex, item);
-                /*final tmp = nowList.removeAt(oldIndex);
-                nowList.insert(newIndex, tmp);*/
               });
             }));
   }
