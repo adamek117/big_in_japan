@@ -48,7 +48,7 @@
         },
         {
           "id": "f16a815e-09cb-4584-a526-f9c489d41d2d",
-          "name": "todo",
+          "name": "in progress",
           "color": "#000000",
           "tasks": [
             { "id": "350ebfe7-4b93-4099-a8ee-776c7f7e8410", "name": "bieganie" },
@@ -66,4 +66,3 @@
       ]
     }
   ]
-  
