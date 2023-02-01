@@ -178,7 +178,7 @@ class _DoneState extends State<Done> {
               FloatingActionButton(
                 heroTag: "btn2",
                 onPressed: changeColor,
-                child: const Icon(Icons.change_circle),
+                child: const Icon(Icons.colorize),
                 backgroundColor: Colors.lime,
               ),
             ],

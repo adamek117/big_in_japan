@@ -187,7 +187,7 @@ class _NowState extends State<Now> {
               FloatingActionButton(
                 heroTag: "btn2",
                 onPressed: changeColor,
-                child: const Icon(Icons.change_circle),
+                child: const Icon(Icons.colorize),
                 backgroundColor: Colors.lime,
               ),
             ],
