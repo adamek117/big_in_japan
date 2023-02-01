@@ -4,7 +4,6 @@ import '../models/boards.dart';
 import 'package:big_in_japan/models/users.dart';
 import 'package:http/http.dart' as http;
 import "package:pdf/widgets.dart" as p;
-import 'package:uuid/uuid.dart';
 import 'package:string_to_color/string_to_color.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';

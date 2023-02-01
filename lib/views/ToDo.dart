@@ -120,8 +120,6 @@ class _ToDoState extends State<ToDo> {
     setState(() {
       final int item = toDoList.removeAt(oldIndex);
       toDoList.insert(newIndex, item);
-      /*final tmp = toDoList.removeAt(oldIndex);
-      toDoList.insert(newIndex, tmp);*/
     });
   }
 
@@ -162,43 +160,6 @@ class _ToDoState extends State<ToDo> {
           );
         });
   }
-  /*setState(() {
-    });*/
-  /*showDialog(
-      context: context,
-      builder: (context) {
-        return DialogBox1(
-          controller: _controller,
-          defaultColor: defaultColor,
-          onSave: saveNewColor,
-          onCancel: () => Navigator.of(context).pop(),
-        );
-      },
-    );*/
-
-  /*void saveNewColor() {
-    setState(() {
-      if (_controller.text == "red") {
-        click = Colors.red;
-      }
-      if (_controller.text == "yellow") {
-        click = Colors.yellow;
-      }
-      if (_controller.text == "blue") {
-        click = Colors.blue;
-      }
-      if (_controller.text == "black") {
-        click = Colors.black;
-      }
-      if (_controller.text == "pink") {
-        click = Colors.pink;
-      } else {
-        const Dialog(child: Text("Wrong color"));
-      }
-    });
-    _controller.clear();
-    Navigator.of(context).pop();
-  }*/
 
   /*Future<void> printToPDF() async {
     PdfDocument document = PdfDocument();
