@@ -54,6 +54,8 @@ class _DoneState extends State<Done> {
             "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${doneList[index].id}"),
         headers: {'x-user-id': widget.user.id},
       );
+      doneList.removeAt(index);
+      widget.doneList[0].columns?[2].tasks?.removeAt(index);
     });
   }
 

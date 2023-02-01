@@ -64,6 +64,12 @@ class _NowState extends State<Now> {
               "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${nowList[index].id}"),
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
+      Tasks? task = nowList.removeAt(index);
+
+      if (task != null) {
+        widget.nowList[0].columns?[1].tasks?.removeAt(index);
+        widget.nowList[0].columns?[2].tasks?.add(task);
+      }
     });
   }
 

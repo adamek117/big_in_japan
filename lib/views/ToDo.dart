@@ -66,6 +66,12 @@ class _ToDoState extends State<ToDo> {
               "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/tasks/${toDoList[index].id}"),
           headers: {'x-user-id': widget.user.id},
           body: {'columnId': nextColumnId});
+      Tasks? task = toDoList.removeAt(index);
+
+      if (task != null) {
+        widget.toDoList[0].columns?[0].tasks?.removeAt(index);
+        widget.toDoList[0].columns?[1].tasks?.add(task);
+      }
     });
   }
 
