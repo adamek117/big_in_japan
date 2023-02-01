@@ -132,7 +132,7 @@ class _ToDoState extends State<ToDo> {
                   //on color picked
                   setState(() {
                     mycolor = color;
-                    hex = '#${mycolor.value.toRadixString(16)}';
+                    hex = '#${mycolor.value.toRadixString(16).padLeft(6, '0')}';
                   });
                 },
               ),
