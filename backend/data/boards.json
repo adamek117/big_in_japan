@@ -1,1 +1,68 @@
-[{"id":"02fb1106-ce88-49bf-8c14-bd0873366b08","name":"praca","color":"#111111","owner":"ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7","columns":[{"id":"587811f4-bdba-47b9-afb7-20b74b3fc72c","name":"todo","color":"4291681337","tasks":[{"id":"e23b7799-c87e-4533-be9b-d96a6e607fcd","name":"pranie"},{"id":"e420df10-fd23-4c06-93b0-208a232696d7","name":"kolacja"}]},{"id":"1117811f4-bdba-47b9-afb7-20b74b3fc72c","name":"in progress","color":"4294961979","tasks":[]},{"id":"8738e421-aac2-431e-8ad8-6a999b42e3e8","name":"done","color":"4283215696","tasks":[]}]},{"id":"3273d781-648f-423b-a13e-bfffc2f2b029","name":"sport","color":"1194924000","owner":"a43b3af3-c099-43b8-80da-fbe4613db542","columns":[{"id":"4f729317-16ba-4d93-a242-18be982ed9f5","name":"todo","color":"5594922056","tasks":[{"id":"81a9e7d9-2ecc-42e3-8e6b-c8fb94832ecc","name":"silownia"}]},{"id":"f16a815e-09cb-4584-a526-f9c489d41d2d","name":"in progress","color":"5594922056","tasks":[{"id":"350ebfe7-4b93-4099-a8ee-776c7f7e8410","name":"bieganie"},{"id":"86c3cfd4-acf9-4064-96d0-b25fa54db579","name":"joga"}]},{"id":"3bf7a1b2-32ca-4a16-8032-77b22e8410ba","name":"done","color":"5594922099","tasks":[{"id":"c1ddab78-eef1-4493-ad24-11aebc1339e1","name":"stretching"}]}]}]
+[
+    {
+      "id": "02fb1106-ce88-49bf-8c14-bd0873366b08",
+      "name": "praca",
+      "color": "#111111",
+      "owner": "ddfcdaea-9e9f-47cf-bd64-bcaabd39eef7",
+      "columns": [
+        {
+          "id": "587811f4-bdba-47b9-afb7-20b74b3fc72c",
+          "name": "todo",
+          "color": "4294924066",
+          "tasks": [
+            { "id": "e23b7799-c87e-4533-be9b-d96a6e607fcd", "name": "pranie" }
+          ]
+        },
+        {
+          "id": "1117811f4-bdba-47b9-afb7-20b74b3fc72c",
+          "name": "in progress",
+          "color": "4294924000",
+          "tasks": [
+            {
+              "id": "ef659634-a0dc-11ed-a8fc-0242ac120002",
+              "name": "szydelkowanie"
+            }
+          ]
+        },
+        {
+          "id": "8738e421-aac2-431e-8ad8-6a999b42e3e8",
+          "name": "done",
+          "color": "9994924000",
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "id": "3273d781-648f-423b-a13e-bfffc2f2b029",
+      "name": "sport",
+      "color": "1194924000",
+      "owner": "a43b3af3-c099-43b8-80da-fbe4613db542",
+      "columns": [
+        {
+          "id": "4f729317-16ba-4d93-a242-18be982ed9f5",
+          "name": "todo",
+          "color": "5594922056",
+          "tasks": [
+            { "id": "81a9e7d9-2ecc-42e3-8e6b-c8fb94832ecc", "name": "silownia" }
+          ]
+        },
+        {
+          "id": "f16a815e-09cb-4584-a526-f9c489d41d2d",
+          "name": "in progress",
+          "color": "5594922056",
+          "tasks": [
+            { "id": "350ebfe7-4b93-4099-a8ee-776c7f7e8410", "name": "bieganie" },
+            { "id": "86c3cfd4-acf9-4064-96d0-b25fa54db579", "name": "joga" }
+          ]
+        },
+        {
+          "id": "3bf7a1b2-32ca-4a16-8032-77b22e8410ba",
+          "name": "done",
+          "color": "5594922099",
+          "tasks": [
+            { "id": "c1ddab78-eef1-4493-ad24-11aebc1339e1", "name": "stretching" }
+          ]
+        }
+      ]
+    }
+]
