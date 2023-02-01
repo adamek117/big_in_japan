@@ -101,7 +101,7 @@ class _NowState extends State<Now> {
                 onColorChanged: (Color color) {
                   //on color picked
                   setState(() {
-                    widget.nowList[0].columns?[2].color =
+                    widget.nowList[0].columns?[1].color =
                         color.value.toString();
                     columnColor = color;
                   });
