@@ -262,7 +262,6 @@ class _ToDoState extends State<ToDo> {
     mycolor = ColorUtils.stringToColor(color1);
     return Scaffold(
         backgroundColor: mycolor,
-        //backgroundColor: (click == false) ? Colors.red : Colors.white,
         appBar: AppBar(
           title: const Text("To Do"),
           elevation: 0,

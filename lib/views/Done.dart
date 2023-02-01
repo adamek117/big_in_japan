@@ -102,7 +102,7 @@ class _DoneState extends State<Done> {
                   setState(() {
                     final response = http.put(
                         Uri.parse(
-                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}/color/${hex}"),
+                            "http://10.0.2.2:3000/boards/${boardId}/columns/${columnId}"),
                         headers: {'x-user-id': widget.user.id},
                         body: {'color': hex});
                   });

@@ -84,18 +84,23 @@ class _InitialPageState extends State<InitialPage> {
     return boards;
   }
 
+  static List<Widget> _widgetOptions = <Widget>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages.length > 0 ? pages[_currentIndex] : null,
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.shifting, // Shifting
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'To Do',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.cancel), label: 'In Progress'),
+              icon: Icon(Icons.incomplete_circle), label: 'In Progress'),
           BottomNavigationBarItem(icon: Icon(Icons.check), label: 'Done')
         ],
         onTap: (index) {
